@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+        <!-- Babylon.js -->
+        <script src="js/hand.minified-1.2.js"></script>
+        <script src="js/cannon.js"></script>
+        <script src="js/oimo.js"></script>
+        <script src="js/babylon.js"></script>
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+    </head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+        var engine = new BABYLON.Engine(canvas, true);
+
+        var createScene = function () {
+            var scene = new BABYLON.Scene(engine);
+        
+            var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(0, 0, 2), scene);
+            var light1 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, -10, 0), scene);
+        
+            var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(15, -8, -40), scene);
+            camera.setTarget(BABYLON.Vector3.Zero());
+        
+            // Create and load the sound async
+            var music = new BABYLON.Sound("storm", "sounds/storm-sound.mp3", scene, null, { loop: true, autoplay: true });
+        
+        	var myAnalyser = new BABYLON.Analyser(scene);
+        	BABYLON.Engine.audioEngine.connectToAnalyser(myAnalyser);
+        	myAnalyser.FFT_SIZE = 32;
+        	myAnalyser.SMOOTHING = 0.9;
+        	
+        	var spatialBox = BABYLON.Mesh.CreateBox("sb", 2, scene);
+        	spatialBox.position = new BABYLON.Vector3(0, 0, 0);
+        	spatialBox.material = new BABYLON.StandardMaterial("sbm", scene);
+			spatialBox.material.diffuseColor = new BABYLON.Color3(0.200, 0.384, 0.627);
+        	
+        	scene.registerBeforeRender(function () {
+        	    var workingArray = myAnalyser.getByteFrequencyData();
+        	
+        	    for (var i = 0; i < myAnalyser.getFrequencyBinCount() ; i++) {
+					var size = workingArray[i] / 32;
+        	        spatialBox.scaling.x =  size*3;
+        	        spatialBox.scaling.y =  size*3;
+        	        spatialBox.scaling.z =  size*3;
+        	    }
+        	});
+        
+        	
+        
+            return scene;
+        };
+        
+        var scene = createScene();
+
+        engine.runRenderLoop(function () {
+            scene.render();
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
