@@ -25,7 +25,7 @@
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
 
-        BABYLON.SceneLoader.Load("blender-scenes", "Speakers.babylon", engine, function (newScene) {
+        BABYLON.SceneLoader.Load("", "simple-box.babylon", engine, function (newScene) {
             // Wait for textures and shaders to be ready
             newScene.executeWhenReady(function () {
                 // Attach camera to canvas inputs
