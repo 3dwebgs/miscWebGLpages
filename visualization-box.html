@@ -41,7 +41,7 @@
             camera.setTarget(BABYLON.Vector3.Zero());
         
             // Create and load the sound async
-            var music = new BABYLON.Sound("storm", "sounds/storm-sound.mp3", scene, null, { loop: true, autoplay: true });
+            var music = new BABYLON.Sound("storm", "sounds/storm-sound.wav", scene, null, { loop: true, autoplay: true });
         
         	var myAnalyser = new BABYLON.Analyser(scene);
         	BABYLON.Engine.audioEngine.connectToAnalyser(myAnalyser);
