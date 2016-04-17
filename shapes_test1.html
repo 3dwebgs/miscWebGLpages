@@ -55,11 +55,11 @@
         	
         	//import of .babylon file from Blender
         	//changes to mesh must be put within callback
-        	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "cone_test2.babylon", scene, function(meshes){
+        	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "shapes_test1.babylon", scene, function(meshes){
         
         		var speaker1 = scene.meshes[0];
         		var speaker2 = scene.meshes[1];
-        		speaker2.position.x = 4;
+        		//speaker2.position.x = 4;
         		
         		/*scene.registerBeforeRender(function () {
         			//creates array, copies frequency data into the passed unsigned byte array 
