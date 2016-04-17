@@ -4,37 +4,31 @@
 		selected layers only:  false
 		flat shading entire scene:  false
 		inline textures:  false
-		texture directory:  /home/gs/Desktop/github-repos/miscWebGLpages/miscWebGLpages_gh_pages/blender-scenes/
+		texture directory:  /home/gs/Desktop/github-repos/miscWebGLpages/miscWebGLpages_gh_pages/
 	Python World class constructor completed
-	processing begun of camera (FreeCamera):  Camera
-	processing begun of mesh:  Torus.002
-		processing begun of Standard material:  Material
-		processing begun of Standard material:  BLACK
-		processing begun of Standard material:  Material.003
-		processing begun of Standard material:  Material.001
-		processing begun of multimaterial:  custom_speakers2.Multimaterial#0
-		num positions      :  4918
-		num normals        :  4918
-		num uvs            :  9836
-		num uvs2           :  0
-		num colors         :  0
-		num indices        :  26964
-		WARNING: # of 0 area faces found:  96
-	processing begun of mesh:  Torus.000
+	WARNING: The following camera not visible in scene thus ignored: Camera
+	processing begun of mesh:  speaker1
 		processing begun of Standard material:  Material.002
-		processing begun of Standard material:  BLACK.001
 		processing begun of Standard material:  Material.004
-		processing begun of Standard material:  Material.005
-		processing begun of multimaterial:  custom_speakers2.Multimaterial#1
-		num positions      :  4918
-		num normals        :  4918
-		num uvs            :  9836
+		processing begun of multimaterial:  custom_speakers2.Multimaterial#0
+		num positions      :  1882
+		num normals        :  1882
+		num uvs            :  0
 		num uvs2           :  0
-		num colors         :  0
-		num indices        :  26964
-		WARNING: # of 0 area faces found:  96
-	processing begun of light (POINT):  Point
+		num colors         :  7528
+		num indices        :  9894
+	processing begun of mesh:  speaker1.001
+		processing begun of Standard material:  Material.011
+		processing begun of Standard material:  Material.013
+		processing begun of multimaterial:  custom_speakers2.Multimaterial#1
+		num positions      :  1882
+		num normals        :  1882
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  7528
+		num indices        :  9894
+	WARNING: The following lamp not visible in scene thus ignored: Lamp
 ========= Writing of scene file started =========
 ========= Writing of scene file completed =========
 ========= end of processing =========
-elapsed time:  0 min, 0.9464 secs
+elapsed time:  0 min, 0.3284 secs

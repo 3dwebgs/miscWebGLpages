@@ -43,7 +43,7 @@
         	
         	
         	//plays and loops music
-        	var music = new BABYLON.Sound("Music", "sounds/storm-sound.mp3", scene, null, { streaming: true, autoplay: true, loop: true  });
+        	//var music = new BABYLON.Sound("Music", "sounds/storm-sound.mp3", scene, null, { streaming: true, autoplay: true, loop: true  });
         	
         	//sets up analyzer
         	var myAnalyser = new BABYLON.Analyser(scene);
@@ -55,13 +55,13 @@
         	
         	//import of .babylon file from Blender
         	//changes to mesh must be put within callback
-        	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "custom-speakers3.babylon", scene, function(meshes){
+        	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "shapes_test1.babylon", scene, function(meshes){
         
         		var speaker1 = scene.meshes[0];
         		var speaker2 = scene.meshes[1];
         		speaker2.position.x = 4;
         		
-        		scene.registerBeforeRender(function () {
+        		/*scene.registerBeforeRender(function () {
         			//creates array, copies frequency data into the passed unsigned byte array 
         		   // var workingArray = myAnalyser.getByteFrequencyData();
         			var workingArray = myAnalyser.getByteTimeDomainData();
@@ -74,7 +74,7 @@
         				
         		        speaker2.scaling = new BABYLON.Vector3(size,size,size);
         		    }
-        		});
+        		});*/
         		
         		
         	});		
