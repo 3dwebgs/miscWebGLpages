@@ -55,15 +55,14 @@
         	
         	//import of .babylon file from Blender
         	//changes to mesh must be put within callback
-        	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "custom-speakers2.babylon", scene, function(meshes){
+        	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "custom_speakers4.babylon", scene, function(meshes){
         
         		var speaker1 = scene.meshes[0];
         		var speaker2 = scene.meshes[1];
-        		speaker2.position.x = 4;
         		
         		scene.registerBeforeRender(function () {
-        			//creates array, copies frequency data into the passed unsigned byte array 
-        		   // var workingArray = myAnalyser.getByteFrequencyData();
+					//creates array, copies frequency data into the passed unsigned byte array 
+					//var workingArray = myAnalyser.getByteFrequencyData();
         			var workingArray = myAnalyser.getByteTimeDomainData();
         		
         			//loop scales mesh with each value
