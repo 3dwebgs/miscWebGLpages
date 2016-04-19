@@ -7,19 +7,16 @@
 		texture directory:  /home/gs/Desktop/github-repos/miscWebGLpages/miscWebGLpages_gh_pages/blender-scenes/
 	Python World class constructor completed
 	WARNING: The following camera not visible in scene thus ignored: Camera
-	processing begun of mesh:  speaker1.001
-		processing begun of Standard material:  Material.011
-		processing begun of Standard material:  Material.013
-		processing begun of Standard material:  Material
-		processing begun of multimaterial:  shapes_test1.Multimaterial#0
-		num positions      :  1932
-		num normals        :  1932
+	processing begun of mesh:  Torus.003
+		WARNING: No materials have been assigned: 
+		num positions      :  744
+		num normals        :  744
 		num uvs            :  0
 		num uvs2           :  0
-		num colors         :  7728
-		num indices        :  9894
+		num colors         :  0
+		num indices        :  4026
 	WARNING: The following lamp not visible in scene thus ignored: Lamp
 ========= Writing of scene file started =========
 ========= Writing of scene file completed =========
 ========= end of processing =========
-elapsed time:  0 min, 0.1879 secs
+elapsed time:  0 min, 0.0499 secs
