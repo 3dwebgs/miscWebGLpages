@@ -6,31 +6,33 @@
 		inline textures:  false
 		texture directory:  /home/gs/Desktop/github-repos/miscWebGLpages/miscWebGLpages_gh_pages/blender-scenes/
 	Python World class constructor completed
-	WARNING: The following camera not visible in scene thus ignored: Camera
-	processing begun of mesh:  speaker1.001
-		processing begun of Standard material:  Material.011
-		processing begun of Standard material:  Material.013
-		processing begun of Standard material:  Material
-		processing begun of multimaterial:  custom_speakers4.Multimaterial#0
-		num positions      :  1932
-		num normals        :  1932
-		num uvs            :  0
-		num uvs2           :  0
-		num colors         :  7728
-		num indices        :  9894
+	processing begun of camera (FreeCamera):  Camera
 	processing begun of mesh:  speaker1.000
 		processing begun of Standard material:  Material.001
 		processing begun of Standard material:  Material.002
 		processing begun of Standard material:  Material.003
-		processing begun of multimaterial:  custom_speakers4.Multimaterial#1
-		num positions      :  1932
-		num normals        :  1932
+		processing begun of multimaterial:  custom_speakers4.Multimaterial#0
+		num positions      :  2000
+		num normals        :  2000
 		num uvs            :  0
 		num uvs2           :  0
-		num colors         :  7728
-		num indices        :  9894
+		num colors         :  8000
+		num indices        :  10302
+		WARNING: # of 0 area faces found:  68
+	processing begun of mesh:  speaker1.001
+		processing begun of Standard material:  Material.004
+		processing begun of Standard material:  Material.005
+		processing begun of Standard material:  Material.006
+		processing begun of multimaterial:  custom_speakers4.Multimaterial#1
+		num positions      :  2000
+		num normals        :  2000
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  8000
+		num indices        :  10302
+		WARNING: # of 0 area faces found:  68
 	WARNING: The following lamp not visible in scene thus ignored: Lamp
 ========= Writing of scene file started =========
 ========= Writing of scene file completed =========
 ========= end of processing =========
-elapsed time:  0 min, 0.3422 secs
+elapsed time:  0 min, 0.3567 secs
