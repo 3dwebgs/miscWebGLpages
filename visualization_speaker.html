@@ -35,11 +35,9 @@
         
             var scene = new BABYLON.Scene(engine);
         
-            var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 0, 0, 0, BABYLON.Vector3.Zero(), scene);
-            camera.setPosition(new BABYLON.Vector3(-1, 11, -20));
-        	camera.attachControl(canvas, true);
-            var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-            light.intensity = 0.7;
+			var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 0, 0, 0, BABYLON.Vector3.Zero(), scene);
+			camera.setPosition(new BABYLON.Vector3(-1, 11, -20));
+			camera.attachControl(canvas, true);
         	
         	
         	//plays and loops music
@@ -52,11 +50,15 @@
          	myAnalyser.FFT_SIZE = 512;
         	myAnalyser.SMOOTHING = 0.9;
         
+
+
         					
         	
         	//import of .babylon file from Blender
         	//changes to mesh must be put within callback
         	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "custom_speakers4.babylon", scene, function(meshes){
+				
+
 				
 				var light2 = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(1, 10, 1), scene);
 				light2.specular = new BABYLON.Color3(1, 1, 1);
@@ -68,19 +70,40 @@
         		
         		scene.registerBeforeRender(function () {
 					//creates array, copies frequency data into the passed unsigned byte array 
-					//var workingArray = myAnalyser.getByteFrequencyData();
-        			var workingArray = myAnalyser.getByteTimeDomainData();
+					//var workingArrayFreq = myAnalyser.getByteFrequencyData();
+        			var workingArrayTime = myAnalyser.getByteTimeDomainData();
         		
         			//loop scales mesh with each value
-        		    for (var i = 0; i < myAnalyser.getFrequencyBinCount() ; i++) {  //frequency bin count is 1/2 of FFT_SIZE
-        
-        				var size = workingArray[i] / 256;
+        		    for (var i = 0; i < myAnalyser.getFrequencyBinCount(); i++) {  //frequency bin count is 1/2 of FFT_SIZE
+        				var size = workingArrayTime[i] / 256;
         		        speaker1.scaling = new BABYLON.Vector3(size,size,size);
-        				
         		        speaker2.scaling = new BABYLON.Vector3(size,size,size);
         		    }
+        		    
+					var particleSystem = new BABYLON.ParticleSystem("particles", 100, scene);
+					particleSystem.particleTexture = new BABYLON.Texture("textures/musical_note.jpg", scene);
+					particleSystem.emitter = speaker1;
+					particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
+					particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
+					particleSystem.minEmitBox = new BABYLON.Vector3(-2, -6, 0); // Starting all From
+					particleSystem.maxEmitBox = new BABYLON.Vector3(2, 1, 0); // To...
+					particleSystem.minSize = 0.1;
+					particleSystem.maxSize = 0.5;
+					particleSystem.emitRate = 20;
+					particleSystem.direction1 = new BABYLON.Vector3(5, 3, -8);
+					particleSystem.direction2 = new BABYLON.Vector3(-5, -3, -8);
+					particleSystem.minAngularSpeed = 0;
+					particleSystem.maxAngularSpeed = Math.PI;
+					particleSystem.maxEmitPower = 1;
+					particleSystem.updateSpeed = 0.003;
+					particleSystem.start();
+				
+				//works fine here
+				//http://www.babylonjs-playground.com/#UGCZT
+				
         		});
         		
+
         		
         	});		
         
