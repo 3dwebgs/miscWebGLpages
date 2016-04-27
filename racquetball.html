@@ -48,6 +48,7 @@
 
 			// Enable Physics
 			scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), new BABYLON.OimoJSPlugin());
+			scene.setGravity(new BABYLON.Vector3(0, -10, 0));
 
 			//light
 			var light0 = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, 1, 0), scene);
@@ -108,35 +109,42 @@
 				impostor: BABYLON.PhysicsEngine.BoxImpostor,
 				mass: 0,
 				friction: 0,
-				restitution: .25
+				restitution: 0.5
 			});
 			
 			backWall.setPhysicsState({
 				impostor: BABYLON.PhysicsEngine.BoxImpostor,
 				mass: 0,
 				friction: 0,
-				restitution: .2
+				restitution: .5
 			});
 			
 			leftWall.setPhysicsState({
 				impostor: BABYLON.PhysicsEngine.BoxImpostor,
 				mass: 0,
 				friction: 0,
-				restitution: .2
+				restitution: .5
 			});
 			
 			rightWall.setPhysicsState({
 				impostor: BABYLON.PhysicsEngine.BoxImpostor,
 				mass: 0,
 				friction: 0,
-				restitution: .2
+				restitution: .5
+			});
+			
+			ceiling.setPhysicsState({
+				impostor: BABYLON.PhysicsEngine.BoxImpostor,
+				mass: 0,
+				friction: 0,
+				restitution: 0.5
 			});
 
 			ball.setPhysicsState({
 				impostor: BABYLON.PhysicsEngine.SphereImpostor,
 				mass: 1,
 				friction: 0,
-				restitution: 4
+				restitution: 2
 			 });
 			 
 			return scene;
