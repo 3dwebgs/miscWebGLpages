@@ -1,5 +1,5 @@
 # miscWebGLpages
-Miscellaneous webGL pages, mostly newbie learning experiments
+Miscellaneous webGL pages for various projects, creativity, and learning. Mostly Babylon.js.
 
 http://gson78.github.io/miscWebGLpages/
 
