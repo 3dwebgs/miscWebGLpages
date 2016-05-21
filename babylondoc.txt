@@ -1,3 +1,7 @@
+doc for including external sources in babylon.js playground
+
+explain needs to be a url of something hosted on the web
+
 including .babylon file
 github raw
 If you use github, and you want to import an .babylon file to the Playground, simply click the Raw button on the repo file, then use that link
