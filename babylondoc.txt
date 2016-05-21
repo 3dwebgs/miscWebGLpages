@@ -1,0 +1,13 @@
+including .babylon file
+github raw
+If you use github, and you want to import an .babylon file to the Playground, simply click the Raw button on the repo file, then use that link
+BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/gson78/miscWebGLpages/gh-pages/blender-scenes/", "custom-speakers2.babylon", scene);
+
+to host mp3files:
+https://gitcdn.xyz
+var music = new BABYLON.Sound("Music", "https://gitcdn.xyz/repo/gson78/miscWebGLpages/gh-pages/sounds/storm-sound.mp3",
+    scene, null, { streaming: true, autoplay: true });
+
+jquery
+$.getScript("http://pryme8.github.io/WUKONG/WUKONG.js");
+http://www.babylonjs-playground.com/#5FLDS#0
