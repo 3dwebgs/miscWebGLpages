@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+        <!-- Babylon.js -->
+        <script src="js/hand.minified-1.2.js"></script>
+        <script src="js/cannon.js"></script>
+        <script src="js/oimo.js"></script>
+        <script src="js/babylon.js"></script>
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+    </head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+        var engine = new BABYLON.Engine(canvas, true);
+
+        var createScene = function () {
+        
+            var scene = new BABYLON.Scene(engine);
+            scene.debugLayer.show()
+        
+			var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 0, 0, 0, BABYLON.Vector3.Zero(), scene);
+			camera.setPosition(new BABYLON.Vector3(0, 0, -10));
+			camera.attachControl(canvas, true);
+        	
+        	
+        	//import of .babylon file from Blender
+        	//changes to mesh must be put within callback
+        	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "tinman1.babylon", scene, function(meshes){
+				
+				var light = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, 1, 0), scene);
+				light.diffuse = new BABYLON.Color3(1,1,1);
+				light.specular = new BABYLON.Color3(0.05,0.05,0.05);
+				light.intensity = 2;
+				
+				var light2 = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(1, 0, -30), scene);
+				light2.specular = new BABYLON.Color3(1, 1, 1);
+				light2.intensity = 2;
+
+				var tinman = scene.meshes[0];
+				tinman.position.y = -0.7;
+
+        	});		
+ 	
+            return scene;
+        
+        };
+
+        
+        var scene = createScene();
+
+        engine.runRenderLoop(function () {
+            scene.render();
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
