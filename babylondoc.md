@@ -17,9 +17,9 @@ Copy and paste the url from the address bar into the Playground. Note that you w
 http://www.babylonjs-playground.com/#1UQADD#0
 
 
-Mp3 and WAV files can also be imported from Github. Click "Raw" from the Github file page and copy/paste the full URL into BABYLON.Sound: 
+Mp3 and WAV files can also be imported from Github. Click the same "Raw" from the Github file page of your sound file and copy/paste the full URL into BABYLON.Sound: 
 
-var music = new BABYLON.Sound("storm", "https://raw.githubusercontent.com/gson78/miscWebGLpages/master/sounds/storm-sound.mp3", scene, null, { loop: true, autoplay: true });
+  ![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/sound.music.ex.jpg)
 
 http://babylonjs-playground.azurewebsites.net/#1DKIRI
 
