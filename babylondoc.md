@@ -1,6 +1,6 @@
 ## Including External Assets
 
-If you need to include an external file in the playground, the file will first need to be hosted on the web so that the url can be accessed. 
+If you need to include an external file in the playground, the file will need to be hosted on the web so that the method you are using can access the URL.
 
 Github is an ideal place to store assets. Even if you are unfamiliar with Git, you can create a repository within Github and upload files directly. Basic instructions on how to use Github can be found here:  https://help.github.com/
 
