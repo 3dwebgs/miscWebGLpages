@@ -34,32 +34,35 @@
         var createScene = function () {
         
             var scene = new BABYLON.Scene(engine);
+            scene.debugLayer.show()
         
 			var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 0, 0, 0, BABYLON.Vector3.Zero(), scene);
-			camera.setPosition(new BABYLON.Vector3(-1, 5, -20));
+			camera.setPosition(new BABYLON.Vector3(0, 0, -10));
 			camera.attachControl(canvas, true);
         	
         	
         	//import of .babylon file from Blender
         	//changes to mesh must be put within callback
-        	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "custom_speakers4.babylon", scene, function(meshes){
+        	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "tinman1.babylon", scene, function(meshes){
 				
-				var light2 = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(1, 10, 1), scene);
+				var light = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, 1, 0), scene);
+				light.diffuse = new BABYLON.Color3(1,1,1);
+				light.specular = new BABYLON.Color3(0.05,0.05,0.05);
+				light.intensity = 2;
+				
+				var light2 = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(1, 0, -30), scene);
 				light2.specular = new BABYLON.Color3(1, 1, 1);
 				light2.intensity = 2;
-        
-        		var speaker1 = scene.meshes[0];
-        		var speaker2 = scene.meshes[1];
-				speaker2.position.x = 7;
-        		
-        	});		
 
+				var tinman = scene.meshes[0];
+				tinman.position.y = -0.7;
+
+        	});		
  	
             return scene;
         
         };
-		//http://www.babylonjs-playground.com/#UGCZT	
-		//http://www.babylonjs-playground.com/#DN9SY#0
+
         
         var scene = createScene();
 
