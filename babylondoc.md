@@ -14,19 +14,19 @@ Copy and paste the url from the address bar into the Playground. Note that you w
   ![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/importmeshex.jpg)
 
 http://www.babylonjs-playground.com/#1UQADD#0
+
 <br>
-<br>
-Sound files and images can also be imported from Github. Click the same "Raw" button from the Github file page of your file and copy/paste the full URL into the method: 
+Sound files and images can also be imported. Click the same "Raw" button from the Github file page and copy/paste the full URL into the method: 
 
   ![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/sound.music.ex.jpg)
 
 http://babylonjs-playground.azurewebsites.net/#1DKIRI
 
+There are other sites that can be used to host your assets. 
+Imgur can be used for images: ...
+other code respositories?
+personal website?
 
-
-//finish markdown
-
-//add helpful images
 
 //add jquery
 
