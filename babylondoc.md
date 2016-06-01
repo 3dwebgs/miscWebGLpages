@@ -22,12 +22,7 @@ Sound files and images can also be imported. Click the same "Raw" button from th
 
 http://babylonjs-playground.azurewebsites.net/#1DKIRI
 
-There are other sites that can be used to host your assets. 
-Imgur can be used for images: ...
-other code respositories?
-personal website?
+Imgur can also be used for images. Additional scripts can be included by using jQuery.getScript() in the first line:
 
+http://www.babylonjs-playground.com/#5FLDS#0
 
-//add jquery
-
-//CORS?
