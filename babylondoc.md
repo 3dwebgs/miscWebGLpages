@@ -13,10 +13,9 @@ Copy and paste the url from the address bar into the Playground. Note that you w
 
   ![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/importmeshex.jpg)
 
-<br>
 http://www.babylonjs-playground.com/#1UQADD#0
 <br>
-
+<br>
 Sound files and images can also be imported from Github. Click the same "Raw" button from the Github file page of your file and copy/paste the full URL into the method: 
 
   ![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/sound.music.ex.jpg)
