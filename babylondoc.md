@@ -8,25 +8,22 @@ To include a .babylon file in a Playground scene, navigate to your file on Githu
 
   ![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/raw.jpg)
 
-
+<br>
 Copy and paste the url from the address bar into the Playground. Note that you will need to copy both the path and the file name separately for the "rootUrl" and "SceneFileName" parameters of SceneLoader class methods. If the imported mesh uses an image for texture, the image file will need to be in the same folder as the .babylon file you are importing.
 
   ![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/importmeshex.jpg)
 
-
+<br>
 http://www.babylonjs-playground.com/#1UQADD#0
+<br>
 
-
-Mp3 and WAV files can also be imported from Github. Click the same "Raw" from the Github file page of your sound file and copy/paste the full URL into BABYLON.Sound: 
+Sound files and images can also be imported from Github. Click the same "Raw" button from the Github file page of your file and copy/paste the full URL into the method: 
 
   ![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/sound.music.ex.jpg)
 
 http://babylonjs-playground.azurewebsites.net/#1DKIRI
 
 
-Do the same for an image that you are applying as a texture to a Babylon.js element:
-
-//include smiley scene.
 
 //finish markdown
 
