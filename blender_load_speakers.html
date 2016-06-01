@@ -1,45 +1,76 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Using babylon.js - How to load a scene</title>
-    <script src="js/babylon.js"></script>
-    <style>
-        html, body {
-            width: 100%;
-            height: 100%;
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
-        }
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        #renderCanvas {
-            width: 100%;
-            height: 100%;
-        }
-    </style>
-</head>
+        <title>Babylon.js sample code</title>
+        <!-- Babylon.js -->
+        <script src="js/hand.minified-1.2.js"></script>
+        <script src="js/cannon.js"></script>
+        <script src="js/oimo.js"></script>
+        <script src="js/babylon.js"></script>
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+    </head>
 <body>
     <canvas id="renderCanvas"></canvas>
     <script>
-    if (BABYLON.Engine.isSupported()) {
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
-       
 
-        BABYLON.SceneLoader.Load("blender-scenes/", "custom-speakers2.babylon", engine, function (newScene) {
-            // Wait for textures and shaders to be ready
-            newScene.executeWhenReady(function () {
-                // Attach camera to canvas inputs
-                newScene.activeCamera.attachControl(canvas);
-                // Once the scene is loaded, just register a render loop to render it
-                engine.runRenderLoop(function() {
-                    newScene.render();
-                });
-            });
-        }, function (progress) {
-            // To do: give progress feedback to user
+        var createScene = function () {
+        
+            var scene = new BABYLON.Scene(engine);
+        
+			var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 0, 0, 0, BABYLON.Vector3.Zero(), scene);
+			camera.setPosition(new BABYLON.Vector3(-1, 5, -20));
+			camera.attachControl(canvas, true);
+        	
+        	
+        	//import of .babylon file from Blender
+        	//changes to mesh must be put within callback
+        	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "custom_speakers4.babylon", scene, function(meshes){
+				
+				var light2 = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(1, 10, 1), scene);
+				light2.specular = new BABYLON.Color3(1, 1, 1);
+				light2.intensity = 2;
+        
+        		var speaker1 = scene.meshes[0];
+        		var speaker2 = scene.meshes[1];
+				speaker2.position.x = 7;
+        		
+        	});		
+
+ 	
+            return scene;
+        
+        };
+		//http://www.babylonjs-playground.com/#UGCZT	
+		//http://www.babylonjs-playground.com/#DN9SY#0
+        
+        var scene = createScene();
+
+        engine.runRenderLoop(function () {
+            scene.render();
         });
-    }
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
     </script>
- </body>
+</body>
 </html>

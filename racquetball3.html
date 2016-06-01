@@ -28,8 +28,12 @@
 <body>
     <canvas id="renderCanvas"></canvas>
     <script>
-	//http://www.babylonjs-playground.com/#14VWOV#4
-	
+		/*
+		add: serve ball function
+		figure out point system
+		start new game: resets score
+		how to post score: like Scene.debugLayer...
+		*/
 		
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
@@ -79,7 +83,6 @@
 			frontWall.scaling.z = 0.01;
 			frontWall.position.y = 100;
 			frontWall.position.z = 200;
-			//frontWall.visibility = 0;
 
 			var sideWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
 			sideWallMaterial.diffuseColor = new BABYLON.Color3(0.900, 0.900, 0.900);
@@ -109,7 +112,7 @@
 			ball.position.y = 40;
 			ball.position.x -= 0;
 			
-			var racquet = BABYLON.Mesh.CreatePlane("racquet", 20, scene);
+			var racquet = BABYLON.Mesh.CreatePlane("racquet", 50, scene);
 			var racquetMat = new BABYLON.StandardMaterial("racquetMat", scene);
 			racquetMat.diffuseColor = new BABYLON.Color3(0.28,1.43,1.43);
 			racquetMat.alpha = 0.3;
@@ -122,34 +125,30 @@
 			* PHYSICS
 			*/
 			
-			scene.enablePhysics(new BABYLON.Vector3(0,-9.81, 0), new BABYLON.OimoJSPlugin());
+			scene.enablePhysics(new BABYLON.Vector3(0,0, 0), new BABYLON.CannonJSPlugin());
 			
 			ground.physicsImpostor = new BABYLON.PhysicsImpostor(
-				ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.75 }, scene);
+				ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
 				
 			backWall.physicsImpostor = new BABYLON.PhysicsImpostor(
-				backWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.75 }, scene);
-							
-			frontWall.physicsImpostor = new BABYLON.PhysicsImpostor(
-				frontWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.75 }, scene);
-			
+				backWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);			
+
 			leftWall.physicsImpostor = new BABYLON.PhysicsImpostor(
-				leftWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.75 }, scene);
+				leftWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
 			
 			rightWall.physicsImpostor = new BABYLON.PhysicsImpostor(
-				rightWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.75 }, scene);
+				rightWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
 			
 			ceiling.physicsImpostor = new BABYLON.PhysicsImpostor(
-				ceiling, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.75 }, scene);
+				ceiling, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
 			
 			racquet.physicsImpostor = new BABYLON.PhysicsImpostor(
-				racquet, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.75 }, scene);
+				racquet, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
 			
 			ball.physicsImpostor = new BABYLON.PhysicsImpostor(
-				ball, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.5, restitution: 1.25 }, scene);
+				ball, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.5, restitution: 1, friction: 0 }, scene);
 				
-			//ball.physicsImpostor.setLinearVelocity(new BABYLON.Vector3(1, 0, -2));	
-			ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(0.5, 6, 15), ball.getAbsolutePosition());
+			ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(50, 60, -120), ball.getAbsolutePosition());
 			 
 			/*
 			* EVENT LISTENERS FOR RACQUET CONTROL
@@ -211,10 +210,7 @@
 			canvas.addEventListener("pointerdown", onPointerDown, false);
 			canvas.addEventListener("pointerup", onPointerUp, false);
 			canvas.addEventListener("pointermove", onPointerMove, false);
-			
-			 
-			//http://www.babylonjs-playground.com/#2ZOKE#1
-			//http://www.babylonjs-playground.com/#2B1VM
+
 			
 			return scene;
         };
