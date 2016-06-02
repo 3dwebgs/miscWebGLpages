@@ -6,19 +6,19 @@ Github is an ideal place to store assets. Even if you are unfamiliar with Git, y
 
 To include a .babylon file in a Playground scene, navigate to your file on Github, and click "Raw". 
 
-  ![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/raw.jpg)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/raw.jpg)
 
 <br>
 Copy and paste the url from the address bar into the Playground. Note that you will need to copy both the path and the file name separately for the "rootUrl" and "SceneFileName" parameters of SceneLoader class methods. If the imported mesh uses an image for texture, the image file will need to be in the same folder as the .babylon file you are importing.
 
-  ![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/importmeshex.jpg)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/importmeshex.jpg)
 
 http://www.babylonjs-playground.com/#1UQADD#0
 
 <br>
 Sound files and images can also be imported. Click the same "Raw" button from the Github file page and copy/paste the full URL into the method: 
 
-  ![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/sound.music.ex.jpg)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](https://raw.githubusercontent.com/gson78/miscWebGLpages/master/textures/sound.music.ex.jpg)
 
 http://babylonjs-playground.azurewebsites.net/#1DKIRI
 
