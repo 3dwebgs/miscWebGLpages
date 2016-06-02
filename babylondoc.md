@@ -22,7 +22,9 @@ Sound files and images can also be imported. Click the same "Raw" button from th
 
 http://babylonjs-playground.azurewebsites.net/#1DKIRI
 
-Imgur can also be used for images. Additional scripts can be included by using jQuery.getScript() in the first line:
+Imgur can also be used for images. 
+
+Additional scripts can be included by using jQuery.getScript() in the first line. In this example, this method was used to add extra functionality to the playground.  Notice the new 'WUKONG' button:
 
 http://www.babylonjs-playground.com/#5FLDS#0
 
