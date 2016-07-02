@@ -2,7 +2,7 @@
 Miscellaneous webGL pages, mostly newbie learning experiments
 
 
-http://webgson.github.io/miscWebGLpages/
+http://3dwebgs.github.io/miscWebGLpages/
 
 
 
