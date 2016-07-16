@@ -101,9 +101,16 @@
 			currentMesh = pickInfo.pickedMesh;
 			startingPoint = getGroundPosition();
 		}
+		
+		if (startingPoint) { // we need to disconnect camera from canvas
+	                setTimeout(function () {
+	                    camera.detachControl(canvas);
+                }, 0);
+            }
 	}
 	var onPointerUp = function () {
 		if (startingPoint) {
+			camera.attachControl(canvas, true);
 			startingPoint = null;
 			return;
 		}
