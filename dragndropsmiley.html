@@ -52,8 +52,9 @@
 	var materialSphere1 = new BABYLON.StandardMaterial("texture1", scene);
 	materialSphere1.diffuseTexture = new BABYLON.Texture("textures/smileyjpg2.jpg", scene);
 	sphere.material = materialSphere1;
+		var pi = Math.PI;
 	sphere.rotation.x = Math.PI;
-	sphere.rotation.y = Math.PI / 2;
+	sphere.rotation.y = (3 * Math.PI) / 2;
 	
 	var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 15, height: 0.5, depth: 10}, scene);
 	ground.position.y = -3;
@@ -63,6 +64,7 @@
 	moveWallMaterial.alpha = 0;
 	//frontWall.material = frontWallMaterial;
 	moveWall.scaling.z = 0.01;
+
 	moveWall.position.y = 2;
 	moveWall.position.z = -1;
       
