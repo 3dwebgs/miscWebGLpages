@@ -42,7 +42,7 @@
 	
 	var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, new BABYLON.Vector3(0,0,0), scene);
 	camera.setPosition(new BABYLON.Vector3(0, 3, 19));
-	//camera.attachControl(canvas, true);
+	camera.attachControl(canvas, true);
 	
 	var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 	light.intensity = 0.7;
