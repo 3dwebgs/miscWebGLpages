@@ -49,20 +49,22 @@
       
           var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
           sphere.position.y = 3;
-        	var materialSphere1 = new BABYLON.StandardMaterial("texture1", scene);
-        	materialSphere1.diffuseTexture = new BABYLON.Texture("textures/smileyjpg2.jpg", scene);
-        	sphere.material = materialSphere1;
-        	
-        	var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 15, height: 0.5, depth: 10}, scene);
-        	ground.position.y = -3;
-        			
-        	var moveWall = BABYLON.MeshBuilder.CreateBox("moveWall", {width: 15, height: 10, depth: 2}, scene); 
-        	var moveWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
-        	moveWallMaterial.alpha = 0;
-        	//frontWall.material = frontWallMaterial;
-        	moveWall.scaling.z = 0.01;
-        	moveWall.position.y = 2;
-        	moveWall.position.z = -1;
+					var materialSphere1 = new BABYLON.StandardMaterial("texture1", scene);
+					materialSphere1.diffuseTexture = new BABYLON.Texture("textures/smileyjpg2.jpg", scene);
+					sphere.material = materialSphere1;
+					materialSphere1.diffuseTexture.uOffset = 1.5;
+					//materialSphere1.diffuseTexture.vOffset = 0.5;
+					
+					var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 15, height: 0.5, depth: 10}, scene);
+					ground.position.y = -3;
+							
+					var moveWall = BABYLON.MeshBuilder.CreateBox("moveWall", {width: 15, height: 10, depth: 2}, scene); 
+					var moveWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
+					moveWallMaterial.alpha = 0;
+					//frontWall.material = frontWallMaterial;
+					moveWall.scaling.z = 0.01;
+					moveWall.position.y = 2;
+					moveWall.position.z = -1;
       	
         	/*
         	* PHYSICS
