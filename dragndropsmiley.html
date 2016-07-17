@@ -62,7 +62,7 @@
 	var moveWall = BABYLON.MeshBuilder.CreateBox("moveWall", {width: 15, height: 10, depth: 2}, scene); 
 	var moveWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
 	moveWallMaterial.alpha = 0;
-	//frontWall.material = frontWallMaterial;
+	frontWall.material = frontWallMaterial;
 	moveWall.scaling.z = 0.01;
 
 	moveWall.position.y = 2;
@@ -150,5 +150,6 @@
             engine.resize();
         });
     </script>
+<div id="info">Drag to bounce Smiley. Try not to drop him!</div>
 </body>
 </html>
