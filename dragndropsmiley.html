@@ -69,7 +69,7 @@
 	var moveWall = BABYLON.MeshBuilder.CreateBox("moveWall", {width: 15, height: 10, depth: 2}, scene); 
 	var moveWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
 	moveWallMaterial.alpha = 0;
-	moveWall.material = frontWallMaterial;
+	moveWall.material = moveWallMaterial;
 	moveWall.scaling.z = 0.01;
 
 	moveWall.position.y = 2;
