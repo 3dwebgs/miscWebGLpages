@@ -43,14 +43,14 @@
             var canvasGUI = document.getElementById("renderCanvas");
             var guisystem = new CASTORGUI.GUIManager(canvasGUI); 
         	
-        	/*var optionsGUIText = {
+        	var optionsGUIText = {
         		x: 10,
         		y: guisystem.getCanvasSize().height - 750,
         		text: "CastorGUI",
         		color: "#fff809",
         		position: "absolute",
         		inline: true
-        	};*/
+        	};
         	
         	var optionsGUIButton = {
 			w: 50,
@@ -60,7 +60,7 @@
 			value: "serve"
 			}
         	
-        	//var createdBy = new CASTORGUI.GUIText("createdBy", optionsGUIText, guisystem);
+        	var createdBy = new CASTORGUI.GUIText("createdBy", optionsGUIText, guisystem);
             serveButton = new CASTORGUI.GUIButton("button", optionsGUIButton, guisystem);
 			//doesn'twork serveButton.addEventListener("click", function(){}, false);
         };
