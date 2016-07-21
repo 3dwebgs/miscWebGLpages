@@ -32,7 +32,8 @@
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
        	
-       	var serveButton, ball;
+       	var scene, guisystem, ball;
+       	
         var scriptGUI = document.createElement("script");
         scriptGUI.id = "scriptGUI";
         scriptGUI.src = "http://www.babylon.actifgames.com/demoCastorGUI/castorGUI.min.js";
@@ -40,30 +41,37 @@
         
         scriptGUI.onload = function()
         {
-            var canvasGUI = document.getElementById("renderCanvas");
-            var guisystem = new CASTORGUI.GUIManager(canvasGUI); 
+
+            guisystem = new CASTORGUI.GUIManager(canvas); 
         	
         	var optionsGUIText = {
-        		x: 10,
+        		x: 20,
         		y: guisystem.getCanvasSize().height - 50,
-        		text: "Drag the blue racket with LMB",
+        		text: "Drag the blue racket to hit ball",
         		color: "#fff809",
         		position: "absolute",
         		inline: true
         	};
         	
         	var optionsGUIButton = {
-			w: 50,
-			h: 20,
+			w: 60,
+			h: 30,
 			x: 20,
-			y: 100,
-			value: "serve"
+			y: guisystem.getCanvasSize().height - 100,
+			value: "SERVE"
+			}
+			
+			function serve (){
+				ball.position = new BABYLON.Vector3(0, -100, 0);
+				//ball.setLinearVelocity(new BABYLON.Vector3(0, -10
+				//ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(10, 10, 50), ball.getAbsolutePosition());
 			}
         	
         	var createdBy = new CASTORGUI.GUIText("createdBy", optionsGUIText, guisystem);
-            serveButton = new CASTORGUI.GUIButton("button", optionsGUIButton, guisystem);
-			//doesn'twork serveButton.addEventListener("click", function(){}, false);
+            var serveButton = new CASTORGUI.GUIButton("button", optionsGUIButton, guisystem, serve);
+
         };
+        
         
         var createScene = function () {
         
@@ -76,7 +84,7 @@
         	
         	var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, new BABYLON.Vector3(0,100,0), scene);
         	camera.setPosition(new BABYLON.Vector3(0, 100, 390));
-        	//camera.attachControl(canvas, true);
+        	camera.attachControl(canvas, true);
         
         	var light0 = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, 1, 0), scene);
         	light0.diffuse = new BABYLON.Color3(1, 1, 1);
@@ -241,13 +249,6 @@
 			canvas.addEventListener("pointerup", onPointerUp, false);
 			canvas.addEventListener("pointermove", onPointerMove, false);
 			
-			/*
-        	*   GUI 
-        	*/
-			
-			
-			//serveButton.addEventListener("click", function(){alert("hello!")}, false);
-			
 
         	return scene;
         };
@@ -257,8 +258,6 @@
         engine.runRenderLoop(function () {
             scene.render();
         });
-
-		
 
 
         // Resize
