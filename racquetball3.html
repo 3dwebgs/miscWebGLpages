@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        <title>Babylon.js sample code</title>
+        <title>Racquetball Sim</title>
         <!-- Babylon.js -->
         <script src="http://www.babylonjs.com/hand.minified-1.2.js"></script>
         <script src="http://www.babylonjs.com/cannon.js"></script>
@@ -44,9 +44,11 @@
 
             guisystem = new CASTORGUI.GUIManager(canvas); 
         	
+        	var canvasHeight = guisystem.getCanvasSize().height;
+        	
         	var optionsGUIText = {
         		x: 20,
-        		y: guisystem.getCanvasSize().height - 50,
+        		y: canvasHeight - canvasHeight*0.10,
         		text: "Drag the blue racket to hit ball",
         		color: "#fff809",
         		position: "absolute",
@@ -57,14 +59,18 @@
 			w: 60,
 			h: 30,
 			x: 20,
-			y: guisystem.getCanvasSize().height - 100,
+			y: canvasHeight - canvasHeight*0.15,
 			value: "SERVE"
 			}
 			
 			function serve (){
-				ball.position = new BABYLON.Vector3(0, -100, 0);
-				//ball.setLinearVelocity(new BABYLON.Vector3(0, -10
-				//ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(10, 10, 50), ball.getAbsolutePosition());
+				ball.position = new BABYLON.Vector3(20, 30, 100);
+				
+				ball.physicsImpostor.physicsBody.velocity.x = 0;
+				ball.physicsImpostor.physicsBody.velocity.y = 0;
+				ball.physicsImpostor.physicsBody.velocity.z = 0;
+
+				ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(Math.random()*50-10, Math.random()*50-10, -120), ball.getAbsolutePosition());
 			}
         	
         	var createdBy = new CASTORGUI.GUIText("createdBy", optionsGUIText, guisystem);
@@ -144,15 +150,14 @@
         	redMat.specularColor = new BABYLON.Color3(0.4, 0.4, 0.4);
         	redMat.emissiveColor = BABYLON.Color3.Red();
         	ball.material = redMat;
-        	ball.position.y = 40;
-        	ball.position.x -= 0;
+        	ball.position = new BABYLON.Vector3(50, 30, 100);
         	
         	var racquet = BABYLON.Mesh.CreatePlane("racquet", 50, scene);
         	var racquetMat = new BABYLON.StandardMaterial("racquetMat", scene);
         	racquetMat.diffuseColor = new BABYLON.Color3(0.28,1.43,1.43);
         	racquetMat.alpha = 0.3;
         	racquet.material = racquetMat;
-        	racquet.position.z = 100; 
+        	racquet.position.z = 130; 
         	racquet.position.y = 75; 
         	racquet.rotation = new BABYLON.Vector3(0, Math.PI, 0);
         	
@@ -183,7 +188,7 @@
         	ball.physicsImpostor = new BABYLON.PhysicsImpostor(
         		ball, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.5, restitution: 1, friction: 0 }, scene);
         		
-        	ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(50, 60, -120), ball.getAbsolutePosition());
+        	//ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(50, 60, -120), ball.getAbsolutePosition());
         	 
         	 
         	 
