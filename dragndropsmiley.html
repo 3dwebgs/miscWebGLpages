@@ -45,11 +45,12 @@
             
             var canvasWidth = guisystem.getCanvasSize().width;
             var canvasHeight = guisystem.getCanvasSize().height;
+            var widthMinusButton = canvasWidth - 100;
             
         	var optionsGUIButton = {
 				w: 100,
 				h: 40,
-				x: canvasWidth - canvasWidth * 0.54,
+				x: widthMinusButton - widthMinusButton * 0.5,
 				y: canvasHeight - canvasHeight * 0.12,
 				value: "Instructions"
 			}
