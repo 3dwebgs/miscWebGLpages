@@ -45,22 +45,23 @@
             guisystem = new CASTORGUI.GUIManager(canvas); 
         	
         	var canvasHeight = guisystem.getCanvasSize().height;
+        	var canvasWidth = guisystem.getCanvasSize().width;
+        	var widthMinusButton = canvasWidth - 60;
         	
-        	var optionsGUIText = {
-        		x: 20,
-        		y: canvasHeight - canvasHeight*0.10,
-        		text: "Drag the blue racket to hit ball",
-        		color: "#fff809",
-        		position: "absolute",
-        		inline: true
-        	};
-        	
-        	var optionsGUIButton = {
+        	var optionsGUIButtonServe = {
 			w: 60,
 			h: 30,
-			x: 20,
+			x: widthMinusButton - widthMinusButton * 0.5,
 			y: canvasHeight - canvasHeight*0.15,
 			value: "SERVE"
+			}
+			
+			var optionsGUIButtonInstructions = {
+			w: 100,
+			h: 30,
+			x: canvasWidth*0.10,
+			y: canvasHeight - canvasHeight*0.10,
+			value: "Instructions"
 			}
 			
 			function serve (){
@@ -72,10 +73,14 @@
 
 				ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(Math.random()*50-10, Math.random()*50-10, -120), ball.getAbsolutePosition());
 			}
+			
+			function popup(){
+				alert("Drag the blue square to hit the ball.\n\nMouse: Hold down the left mouse button.\n\nTouchscreen: Swipe with one finger.\n\nTouchpad: Hold down touchpad with one finger");
+			}
         	
-        	var createdBy = new CASTORGUI.GUIText("createdBy", optionsGUIText, guisystem);
-            var serveButton = new CASTORGUI.GUIButton("button", optionsGUIButton, guisystem, serve);
 
+            var serveButton = new CASTORGUI.GUIButton("button", optionsGUIButtonServe, guisystem, serve);
+			var instructionsButton = new CASTORGUI.GUIButton("button", optionsGUIButtonInstructions, guisystem, popup);
         };
         
         
