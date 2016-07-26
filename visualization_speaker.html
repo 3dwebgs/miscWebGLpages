@@ -30,6 +30,29 @@
     <script>
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
+        
+        var scriptGUI = document.createElement("script");
+        scriptGUI.id = "scriptGUI";
+        scriptGUI.src = "http://www.babylon.actifgames.com/demoCastorGUI/castorGUI.min.js";
+        document.body.appendChild(scriptGUI);
+        
+        scriptGUI.onload = function()
+        {
+			var guisystem = new CASTORGUI.GUIManager(canvas); 
+        	
+        	var canvasHeight = guisystem.getCanvasSize().height;
+        	var canvasWidth = guisystem.getCanvasSize().width;
+			
+			var optionsGUIText = {
+				x: canvasWidth*0.04,
+				y: canvasHeight - canvasHeight*0.05,
+				color: "#fff809",
+				text: "Music: Bensound.com",
+				size: 12,
+			}
+        
+			var textCredit = new CASTORGUI.GUIText("credit", optionsGUIText, guisystem);
+		};
 
         var createScene = function () {
         
@@ -40,7 +63,7 @@
 			camera.attachControl(canvas, true);
         	
         	//plays and loops music
-        	var music = new BABYLON.Sound("Music", "https://api.soundcloud.com/tracks/10268265/stream?client_id=6875d19de4dbbb757843088879a70c12", scene, null, { streaming: true, autoplay: true, loop: true  });
+        	var music = new BABYLON.Sound("Music", "sounds/bensound-retrosoul.mp3", scene, null, { streaming: true, autoplay: true, loop: true  });
         	//song credited to RJD2, album: Deadringer.  https://itunes.apple.com/us/album/deadringer/id335220471
         	
         	//sets up analyzer
