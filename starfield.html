@@ -36,6 +36,7 @@
 		function createScene() {
 			var scene = new BABYLON.Scene(engine);
 			scene.clearColor = new BABYLON.Color3(0.5, 0.8, 0.5);
+			scene.debugLayer.show();
 
 			var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(10, 50, 50), scene);
 			var camera = new BABYLON.ArcRotateCamera("Camera", 0.4, 1.2, 20, new BABYLON.Vector3(-10, 0, 0), scene);
