@@ -54,6 +54,10 @@
 			skyboxMaterial.disableLighting = true;
 			skybox.material = skyboxMaterial;
 
+			BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "custom_speakers4.babylon", scene, function(meshes){
+			});	
+
+
 			return scene;
 		};
         
