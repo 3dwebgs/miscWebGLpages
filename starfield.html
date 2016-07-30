@@ -36,16 +36,17 @@
 		function createScene() {
 			var scene = new BABYLON.Scene(engine);
 			scene.clearColor = new BABYLON.Color3(0.5, 0.8, 0.5);
-			//scene.debugLayer.show();
 
 			var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(10, 50, 50), scene);
-			var camera = new BABYLON.ArcRotateCamera("Camera", 0.4, 1.2, 20, new BABYLON.Vector3(-10, 0, 0), scene);
+			 var light2 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+			var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
+			var camera = new BABYLON.ArcRotateCamera("Camera", 0, 1.5, 250, new BABYLON.Vector3(-10, 0, 0), scene);
 
 			camera.attachControl(canvas, false);
 
 
 			// Skybox
-			var skybox = BABYLON.Mesh.CreateBox("skyBox", 500.0, scene);
+			var skybox = BABYLON.Mesh.CreateBox("skyBox", 5000.0, scene);
 			var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
 			skyboxMaterial.backFaceCulling = false;
 			skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/skybox/skybox", scene);
@@ -54,16 +55,48 @@
 			skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
 			skyboxMaterial.disableLighting = true;
 			skybox.material = skyboxMaterial;
-			skybox.renderingGroupId = 0;
+			
+			var sphere = BABYLON.Mesh.CreateSphere("sphere1", 25, 6, scene);
+			var mat = new BABYLON.StandardMaterial("white", scene);
+			mat.diffuseTexture = new BABYLON.Texture("textures/suntexture.jpg", scene);
+			//mat.diffuseColor = new BABYLON.Color3(0, 0, 0);
+			mat.specularColor = new BABYLON.Color3(0, 0, 0);
+			sphere.material = mat;
+			sphere.position.y = 1;
+			
+			for (i = 0; i<5; i++){
+				var particleSystem = new BABYLON.ParticleSystem("particles", 20000, scene);
+				particleSystem.particleTexture = new BABYLON.Texture("textures/fireflare.jpg", scene);
+				particleSystem.emitter = sphere;
+				particleSystem.color1 = new BABYLON.Color4(0.984, 0.337, 0.047, 1);
+				particleSystem.color2 = new BABYLON.Color4(0.984, 0.757, 0.047, 1);
+				particleSystem.minSize = 0.5;
+				particleSystem.maxSize = 1;
+				particleSystem.minLifeTime = 0.03;
+				particleSystem.maxLifeTime = 0.1;
+				particleSystem.emitRate = 20000;
+				particleSystem.direction1 = new BABYLON.Vector3(-30, 30, 30);
+				particleSystem.direction2 = new BABYLON.Vector3(30, -30, -30);
+				//angle
+				particleSystem.minAngularSpeed = 0;
+				particleSystem.maxAngularSpeed = Math.PI;
+				// Speed
+				particleSystem.minEmitPower = .5;
+				particleSystem.maxEmitPower = 5;
+				particleSystem.updateSpeed = 0.005;
 
-			BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "lowpolyspaceship1.blend", scene, function(meshes){
-				var light2 = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(1, 10, 1), scene);
-				light2.specular = new BABYLON.Color3(1, 1, 1);
-				light2.intensity = 2;
-				
-				meshes[0].renderingGroupId = 1;
-			});	
+				// Start the particle system
+				particleSystem.start();
+			}
 
+
+
+
+
+
+			
+			//http://www.babylonjs-playground.com/#1RDDIO#1
+			
 
 			return scene;
 		};
