@@ -30,60 +30,123 @@
     <script>
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
+        
+        var scriptGUI = document.createElement("script");
+        scriptGUI.id = "scriptGUI";
+        scriptGUI.src = "http://www.babylon.actifgames.com/demoCastorGUI/castorGUI.min.js";
+        document.body.appendChild(scriptGUI);
+        
+        scriptGUI.onload = function()
+        {
+			var guisystem = new CASTORGUI.GUIManager(canvas); 
+        	
+        	var canvasHeight = guisystem.getCanvasSize().height;
+        	var canvasWidth = guisystem.getCanvasSize().width;
+			
+			var optionsGUIText = {
+				x: canvasWidth*0.04,
+				y: canvasHeight - canvasHeight*0.05,
+				color: "#fff809",
+				text: "Music: Bensound.com",
+				size: 12,
+			}
+        
+			var textCredit = new CASTORGUI.GUIText("credit", optionsGUIText, guisystem);
+		};
 
         var createScene = function () {
         
             var scene = new BABYLON.Scene(engine);
         
-            var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-            camera.setTarget(BABYLON.Vector3.Zero());
-        	camera.attachControl(canvas, true);
-            var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-            light.intensity = 0.7;
-        	
+			var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 0, 0, 0, BABYLON.Vector3.Zero(), scene);
+			camera.setPosition(new BABYLON.Vector3(-1, 5, -20));
+			camera.attachControl(canvas, true);
         	
         	//plays and loops music
-        	var music = new BABYLON.Sound("Music", "sounds/storm-sound.wav", scene, null, { streaming: true, autoplay: true, loop: true  });
+        	var music = new BABYLON.Sound("Music", "sounds/bensound-retrosoul.mp3", scene, null, { streaming: true, autoplay: true, loop: true  });
+
         	
         	//sets up analyzer
         	var myAnalyser = new BABYLON.Analyser(scene);
         	BABYLON.Engine.audioEngine.connectToAnalyser(myAnalyser);
          	myAnalyser.FFT_SIZE = 512;
         	myAnalyser.SMOOTHING = 0.9;
-        
-        					
         	
         	//import of .babylon file from Blender
         	//changes to mesh must be put within callback
         	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "custom_speakers4.babylon", scene, function(meshes){
+				
+				var light2 = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(1, 10, 1), scene);
+				light2.specular = new BABYLON.Color3(1, 1, 1);
+				light2.intensity = 2;
         
         		var speaker1 = scene.meshes[0];
         		var speaker2 = scene.meshes[1];
+				speaker2.position.x = 7;
+
+				var particleSystem = new BABYLON.ParticleSystem("particles", 1000, scene);
+				particleSystem.particleTexture = new BABYLON.Texture("textures/musical_note.jpg", scene);
+				particleSystem.emitter = speaker1;
+				particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
+				particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
+				particleSystem.minEmitBox = new BABYLON.Vector3(-2, -6, -2); // Starting all From
+				particleSystem.maxEmitBox = new BABYLON.Vector3(2, 3, -2); // To...
+				particleSystem.minSize = 0.1;
+				particleSystem.maxSize = 0.5;
+				particleSystem.minLifeTime = 1.0;
+				particleSystem.maxLifeTime = 5.0;
+				particleSystem.emitRate = 100;
+				particleSystem.direction1 = new BABYLON.Vector3(5, 3, -8);
+				particleSystem.direction2 = new BABYLON.Vector3(-5, -3, -8);
+				particleSystem.minAngularSpeed = 0;
+				particleSystem.maxAngularSpeed = Math.PI;
+				particleSystem.maxEmitPower = 1;
+				particleSystem.updateSpeed = 0.005;
+
+				
+				var particleSystem2 = new BABYLON.ParticleSystem("particles", 1000, scene);
+				particleSystem2.particleTexture = new BABYLON.Texture("textures/musical_note.jpg", scene);
+				particleSystem2.emitter = speaker2;
+				particleSystem2.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
+				particleSystem2.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
+				particleSystem2.minEmitBox = new BABYLON.Vector3(-2, -6, 2); // Starting all From
+				particleSystem2.maxEmitBox = new BABYLON.Vector3(2, 1, 2); // To...
+				particleSystem2.minSize = 0.1;
+				particleSystem2.maxSize = 0.5;
+				particleSystem2.minLifeTime = 1.0;
+				particleSystem2.maxLifeTime = 5.0;
+				particleSystem2.emitRate = 200;
+				particleSystem2.direction1 = new BABYLON.Vector3(5, 3, -8);
+				particleSystem2.direction2 = new BABYLON.Vector3(-5, -3, -8);
+				particleSystem2.minAngularSpeed = 0;
+				particleSystem2.maxAngularSpeed = Math.PI;
+				particleSystem2.maxEmitPower = 1;
+				particleSystem2.updateSpeed = 0.005;
         		
         		scene.registerBeforeRender(function () {
 					//creates array, copies frequency data into the passed unsigned byte array 
-					//var workingArray = myAnalyser.getByteFrequencyData();
-        			var workingArray = myAnalyser.getByteTimeDomainData();
+					//var workingArrayFreq = myAnalyser.getByteFrequencyData();
+        			var workingArrayTime = myAnalyser.getByteTimeDomainData();
         		
         			//loop scales mesh with each value
-        		    for (var i = 0; i < myAnalyser.getFrequencyBinCount() ; i++) {  //frequency bin count is 1/2 of FFT_SIZE
-        
-        				var size = workingArray[i] / 256;
+        		    for (var i = 0; i < myAnalyser.getFrequencyBinCount(); i++) {  //frequency bin count is 1/2 of FFT_SIZE
+        				var size = workingArrayTime[i] / 256;
         		        speaker1.scaling = new BABYLON.Vector3(size,size,size);
-        				
         		        speaker2.scaling = new BABYLON.Vector3(size,size,size);
         		    }
+        		    					
+					particleSystem.start();
+					particleSystem2.start();
         		});
         		
-        		
         	});		
-        
-        	//scene.debugLayer.show(); 
-        
-        	
+
+ 	
             return scene;
         
         };
+		//http://www.babylonjs-playground.com/#UGCZT	
+		//http://www.babylonjs-playground.com/#DN9SY#0
         
         var scene = createScene();
 

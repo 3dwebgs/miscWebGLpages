@@ -3,12 +3,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        <title>RacketPong</title>
+        <title>Racquetball Sim</title>
         <!-- Babylon.js -->
         <script src="http://www.babylonjs.com/hand.minified-1.2.js"></script>
         <script src="http://www.babylonjs.com/cannon.js"></script>
-        <script src="http://www.babylonjs.com/oimo.js"></script>
         <script src="http://www.babylonjs.com/babylon.js"></script>
+
         <style>
             html, body {
                 overflow: hidden;
@@ -26,193 +26,241 @@
         </style>
     </head>
 <body>
+	
     <canvas id="renderCanvas"></canvas>
     <script>
-		/*
-		add: serve ball function
-		figure out point system
-		start new game: resets score
-		how to post score: like Scene.debugLayer...
-		*/
-		
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
+       	
+       	var scene, guisystem, ball;
+       	
+        var scriptGUI = document.createElement("script");
+        scriptGUI.id = "scriptGUI";
+        scriptGUI.src = "http://www.babylon.actifgames.com/demoCastorGUI/castorGUI.min.js";
+        document.body.appendChild(scriptGUI);
+        
+        scriptGUI.onload = function()
+        {
 
+            guisystem = new CASTORGUI.GUIManager(canvas); 
+        	
+        	var canvasHeight = guisystem.getCanvasSize().height;
+        	var canvasWidth = guisystem.getCanvasSize().width;
+        	var widthMinusButton = canvasWidth - 60;
+        	
+        	var optionsGUIButtonServe = {
+			w: 60,
+			h: 30,
+			x: widthMinusButton - widthMinusButton * 0.5,
+			y: canvasHeight - canvasHeight*0.05,
+			value: "SERVE"
+			}
+			
+			var optionsGUIButtonInstructions = {
+			w: 100,
+			h: 30,
+			x: canvasWidth*0.05,
+			y: canvasHeight - canvasHeight*0.05,
+			value: "Instructions"
+			}
+			
+			function serve (){
+				ball.position = new BABYLON.Vector3(20, 30, 100);
+				
+				ball.physicsImpostor.physicsBody.velocity.x = 0;
+				ball.physicsImpostor.physicsBody.velocity.y = 0;
+				ball.physicsImpostor.physicsBody.velocity.z = 0;
+
+				ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(Math.random()*50-5, Math.random()*50-5, -120), ball.getAbsolutePosition());
+			}
+			
+			function popup(){
+				alert("Drag the blue square to hit the ball.\n\nMouse: Hold down the left mouse button.\n\nTouchscreen: Swipe with one finger.\n\nTouchpad: Hold down touchpad with one finger");
+			}
+        	
+
+            var serveButton = new CASTORGUI.GUIButton("button", optionsGUIButtonServe, guisystem, serve);
+			var instructionsButton = new CASTORGUI.GUIButton("button", optionsGUIButtonInstructions, guisystem, popup);
+        };
+        
+        
         var createScene = function () {
-
-			/*
-			* ROOM SETUP
-			*/
-			
-			var scene = new BABYLON.Scene(engine);
-			scene.clearColor = new BABYLON.Color3(0.13, 0.11, 0.15);
-			
-			var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, new BABYLON.Vector3(0,100,0), scene);
-			camera.setPosition(new BABYLON.Vector3(0, 100, 390));
-			//camera.attachControl(canvas, true);
-
-			var light0 = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, 1, 0), scene);
-			light0.diffuse = new BABYLON.Color3(1, 1, 1);
-			light0.specular = new BABYLON.Color3(1, 1, 1);
-			light0.groundColor = new BABYLON.Color3(.4, .4, .4);
-			light0.intensity = 0.9;
-			
-			var pi = Math.PI; //for rotation
-			
-			var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 400, height: 2, depth: 400}, scene);
-			var groundMaterial = new BABYLON.StandardMaterial("wallMat", scene);
-			groundMaterial.diffuseColor = new BABYLON.Color3(0.820, 0.753, 0.467);
-			groundMaterial.specularColor = BABYLON.Color3.Black();
-			ground.material = groundMaterial;
-			ground.scaling.x = 0.5;
-			ground.scaling = new BABYLON.Vector3(0.5, 0.005, 1);
-			
-			var backWall = BABYLON.MeshBuilder.CreateBox("backwall", {width: 200, height: 200, depth: 2}, scene);
-			var backWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
-			backWallMaterial.diffuseColor = new BABYLON.Color3(1, 1, 1);
-			backWallMaterial.specularColor = BABYLON.Color3.Black();
-			backWall.material = backWallMaterial;
-			backWall.position.y = 100;
-			backWall.position.z = -200;
-			backWall.rotation = new BABYLON.Vector3(0, Math.PI, 0);
-			
-			var frontWall = BABYLON.MeshBuilder.CreateBox("frontwall", {width: 200, height: 200, depth: 2}, scene); 
-			var frontWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
-			frontWallMaterial.alpha = 0;
-			frontWall.material = frontWallMaterial;
-			frontWall.scaling.z = 0.01;
-			frontWall.position.y = 100;
-			frontWall.position.z = 200;
-
-			var sideWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
-			sideWallMaterial.diffuseColor = new BABYLON.Color3(0.900, 0.900, 0.900);
-			sideWallMaterial.specularColor = BABYLON.Color3.Black();
-
-			var leftWall = BABYLON.MeshBuilder.CreateBox("leftwall", {width:400,height:200, depth:2}, scene);
-			leftWall.material = sideWallMaterial;
-			leftWall.position = new BABYLON.Vector3(100, 100, 0);
-			leftWall.rotation = new BABYLON.Vector3(0, pi/2, 0);
-
-			var rightWall =  BABYLON.MeshBuilder.CreateBox("rightwall", {width: 400, height: 200, depth: 2}, scene);
-			rightWall.material = sideWallMaterial;
-			rightWall.position = new BABYLON.Vector3(-100, 100, 0);
-			rightWall.rotation = new BABYLON.Vector3(0, pi/2, 0);
-
-			var ceiling = BABYLON.MeshBuilder.CreateBox("ceiling", {width:200, height:400, depth:2}, scene);
-			ceiling.material = sideWallMaterial;
-			ceiling.position = new BABYLON.Vector3(0, 200, 0);
-			ceiling.rotation.x = pi/2;
-			
-			var ball = BABYLON.MeshBuilder.CreateSphere("ball", {segments: 15, diameter: 10}, scene);
-			var redMat = new BABYLON.StandardMaterial("ballMaterial", scene);
-			redMat.diffuseColor = new BABYLON.Color3(0.4, 0.4, 0.4);
-			redMat.specularColor = new BABYLON.Color3(0.4, 0.4, 0.4);
-			redMat.emissiveColor = BABYLON.Color3.Red();
-			ball.material = redMat;
-			ball.position.y = 40;
-			ball.position.x -= 0;
-			
-			var racquet = BABYLON.Mesh.CreatePlane("racquet", 50, scene);
-			var racquetMat = new BABYLON.StandardMaterial("racquetMat", scene);
-			racquetMat.diffuseColor = new BABYLON.Color3(0.28,1.43,1.43);
-			racquetMat.alpha = 0.3;
-			racquet.material = racquetMat;
-			racquet.position.z = 100; 
-			racquet.position.y = 75; 
-			racquet.rotation = new BABYLON.Vector3(0, Math.PI, 0);
-			
-			/*
-			* PHYSICS
-			*/
-			
-			scene.enablePhysics(new BABYLON.Vector3(0,0, 0), new BABYLON.CannonJSPlugin());
-			
-			ground.physicsImpostor = new BABYLON.PhysicsImpostor(
-				ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
-				
-			backWall.physicsImpostor = new BABYLON.PhysicsImpostor(
-				backWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);			
-
-			leftWall.physicsImpostor = new BABYLON.PhysicsImpostor(
-				leftWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
-			
-			rightWall.physicsImpostor = new BABYLON.PhysicsImpostor(
-				rightWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
-			
-			ceiling.physicsImpostor = new BABYLON.PhysicsImpostor(
-				ceiling, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
-			
-			racquet.physicsImpostor = new BABYLON.PhysicsImpostor(
-				racquet, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
-			
-			ball.physicsImpostor = new BABYLON.PhysicsImpostor(
-				ball, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.5, restitution: 1, friction: 0 }, scene);
-				
-			ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(50, 60, -120), ball.getAbsolutePosition());
-			 
-			/*
-			* EVENT LISTENERS FOR RACQUET CONTROL
-			*/ 
-			
-			var currentMesh;
-			var startingPoint;
-
-
-			var getGroundPosition = function () {
-				var pickinfo = scene.pick(scene.pointerX, scene.pointerY, function(mesh){ return mesh == frontWall;});
-				if (pickinfo.hit) {
-					return pickinfo.pickedPoint;
-				}
-
-				return null;
-			}
-
-			var onPointerDown = function (evt) {
-				if (evt.button !== 0) {
-					return;
-				}
-
-				var pickInfo = scene.pick(scene.pointerX, scene.pointerY, function (mesh) { return mesh !== frontWall && mesh == racquet;});
-				if (pickInfo.hit) {
-					currentMesh = pickInfo.pickedMesh;
-					startingPoint = getGroundPosition();
-
-				}
-			}
-
-			var onPointerUp = function () {
-				if (startingPoint) {
-					startingPoint = null;
-					return;
-				}
-			}
-
-			var onPointerMove = function () {
-				if (!startingPoint) {
-					return;
-				}
-
-				var current = getGroundPosition();
-
-				if (!current) {
-					return;
-				}
-
-				var diffX = current.x - startingPoint.x;
-				var diffY = current.y - startingPoint.y;
-				currentMesh.position.x += diffX;
-				currentMesh.position.y += diffY;
-				
-				startingPoint = current;
-
-			}
+        
+        	/*
+        	* ROOM SETUP
+        	*/
+        	
+        	var scene = new BABYLON.Scene(engine);
+        	scene.clearColor = new BABYLON.Color3(0.13, 0.11, 0.15);
+        	
+        	var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, new BABYLON.Vector3(0,100,0), scene);
+        	camera.setPosition(new BABYLON.Vector3(0, 100, 390));
+        	//camera.attachControl(canvas, true);
+        
+        	var light0 = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, 1, 0), scene);
+        	light0.diffuse = new BABYLON.Color3(1, 1, 1);
+        	light0.specular = new BABYLON.Color3(1, 1, 1);
+        	light0.groundColor = new BABYLON.Color3(.4, .4, .4);
+        	light0.intensity = 0.9;
+        	
+        	var pi = Math.PI; //for rotation
+        	
+        	var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 400, height: 2, depth: 400}, scene);
+        	var groundMaterial = new BABYLON.StandardMaterial("wallMat", scene);
+        	groundMaterial.diffuseColor = new BABYLON.Color3(0.820, 0.753, 0.467);
+        	groundMaterial.specularColor = BABYLON.Color3.Black();
+        	ground.material = groundMaterial;
+        	ground.scaling.x = 0.5;
+        	ground.scaling = new BABYLON.Vector3(0.5, 0.005, 1);
+        	
+        	var backWall = BABYLON.MeshBuilder.CreateBox("backwall", {width: 200, height: 200, depth: 2}, scene);
+        	var backWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
+        	backWallMaterial.diffuseColor = new BABYLON.Color3(1, 1, 1);
+        	backWallMaterial.specularColor = BABYLON.Color3.Black();
+        	backWall.material = backWallMaterial;
+        	backWall.position.y = 100;
+        	backWall.position.z = -200;
+        	backWall.rotation = new BABYLON.Vector3(0, Math.PI, 0);
+        	
+        	var frontWall = BABYLON.MeshBuilder.CreateBox("frontwall", {width: 200, height: 200, depth: 2}, scene); 
+        	var frontWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
+        	frontWallMaterial.alpha = 0;
+        	frontWall.material = frontWallMaterial;
+        	frontWall.scaling.z = 0.01;
+        	frontWall.position.y = 100;
+        	frontWall.position.z = 200;
+        
+        	var sideWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
+        	sideWallMaterial.diffuseColor = new BABYLON.Color3(0.900, 0.900, 0.900);
+        	sideWallMaterial.specularColor = BABYLON.Color3.Black();
+        
+        	var leftWall = BABYLON.MeshBuilder.CreateBox("leftwall", {width:400,height:200, depth:2}, scene);
+        	leftWall.material = sideWallMaterial;
+        	leftWall.position = new BABYLON.Vector3(100, 100, 0);
+        	leftWall.rotation = new BABYLON.Vector3(0, pi/2, 0);
+        
+        	var rightWall =  BABYLON.MeshBuilder.CreateBox("rightwall", {width: 400, height: 200, depth: 2}, scene);
+        	rightWall.material = sideWallMaterial;
+        	rightWall.position = new BABYLON.Vector3(-100, 100, 0);
+        	rightWall.rotation = new BABYLON.Vector3(0, pi/2, 0);
+        
+        	var ceiling = BABYLON.MeshBuilder.CreateBox("ceiling", {width:200, height:400, depth:2}, scene);
+        	ceiling.material = sideWallMaterial;
+        	ceiling.position = new BABYLON.Vector3(0, 200, 0);
+        	ceiling.rotation.x = pi/2;
+        	
+        	ball = BABYLON.MeshBuilder.CreateSphere("ball", {segments: 15, diameter: 10}, scene);
+        	var redMat = new BABYLON.StandardMaterial("ballMaterial", scene);
+        	redMat.diffuseColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+        	redMat.specularColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+        	redMat.emissiveColor = BABYLON.Color3.Red();
+        	ball.material = redMat;
+        	ball.position = new BABYLON.Vector3(50, 30, 100);
+        	
+        	var racquet = BABYLON.Mesh.CreatePlane("racquet", 50, scene);
+        	var racquetMat = new BABYLON.StandardMaterial("racquetMat", scene);
+        	racquetMat.diffuseColor = new BABYLON.Color3(0.28,1.43,1.43);
+        	racquetMat.alpha = 0.3;
+        	racquet.material = racquetMat;
+        	racquet.position.z = 130; 
+        	racquet.position.y = 75; 
+        	racquet.rotation = new BABYLON.Vector3(0, Math.PI, 0);
+        	
+        	/*
+        	* PHYSICS
+        	*/
+        	
+        	scene.enablePhysics(new BABYLON.Vector3(0,0, 0), new BABYLON.CannonJSPlugin());
+        	
+        	ground.physicsImpostor = new BABYLON.PhysicsImpostor(
+        		ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
+        		
+        	backWall.physicsImpostor = new BABYLON.PhysicsImpostor(
+        		backWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);			
+        
+        	leftWall.physicsImpostor = new BABYLON.PhysicsImpostor(
+        		leftWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
+        	
+        	rightWall.physicsImpostor = new BABYLON.PhysicsImpostor(
+        		rightWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
+        	
+        	ceiling.physicsImpostor = new BABYLON.PhysicsImpostor(
+        		ceiling, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
+        	
+        	racquet.physicsImpostor = new BABYLON.PhysicsImpostor(
+        		racquet, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
+        	
+        	ball.physicsImpostor = new BABYLON.PhysicsImpostor(
+        		ball, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.5, restitution: 1, friction: 0 }, scene);
+        		
+        	//ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(50, 60, -120), ball.getAbsolutePosition());
+        	 
+        	 
+        	 
+        	/*
+        	* EVENT LISTENERS FOR RACQUET CONTROL
+        	*/ 
+        	
+        	var currentMesh;
+        	var startingPoint;
+        
+        
+        	var getGroundPosition = function () {
+        		var pickinfo = scene.pick(scene.pointerX, scene.pointerY, function(mesh){ return mesh == frontWall;});
+        		if (pickinfo.hit) {
+        			return pickinfo.pickedPoint;
+        		}
+        
+        		return null;
+        	}
+        
+        	var onPointerDown = function (evt) {
+        		if (evt.button !== 0) {
+        			return;
+        		}
+        
+        		var pickInfo = scene.pick(scene.pointerX, scene.pointerY, function (mesh) { return mesh !== frontWall && mesh == racquet;});
+        		if (pickInfo.hit) {
+        			currentMesh = pickInfo.pickedMesh;
+        			startingPoint = getGroundPosition();
+        
+        		}
+        	}
+        
+        	var onPointerUp = function () {
+        		if (startingPoint) {
+        			startingPoint = null;
+        			return;
+        		}
+        	}
+        
+        	var onPointerMove = function () {
+        		if (!startingPoint) {
+        			return;
+        		}
+        
+        		var current = getGroundPosition();
+        
+        		if (!current) {
+        			return;
+        		}
+        
+        		var diffX = current.x - startingPoint.x;
+        		var diffY = current.y - startingPoint.y;
+        		currentMesh.position.x += diffX;
+        		currentMesh.position.y += diffY;
+        		
+        		startingPoint = current;
+        
+        	}
+        	
 
 			canvas.addEventListener("pointerdown", onPointerDown, false);
 			canvas.addEventListener("pointerup", onPointerUp, false);
 			canvas.addEventListener("pointermove", onPointerMove, false);
-
 			
-			return scene;
+
+        	return scene;
         };
         
         var scene = createScene();
@@ -220,6 +268,7 @@
         engine.runRenderLoop(function () {
             scene.render();
         });
+
 
         // Resize
         window.addEventListener("resize", function () {
