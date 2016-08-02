@@ -9,6 +9,7 @@
         <script src="js/cannon.js"></script>
         <script src="js/oimo.js"></script>
         <script src="js/babylon.js"></script>
+
         <style>
             html, body {
                 overflow: hidden;
@@ -28,6 +29,7 @@
     </head>
 <body>
     <canvas id="renderCanvas"></canvas>
+
     <script>
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
@@ -46,11 +48,11 @@
             var widthMinusButton = canvasWidth - 100;
             
         	var optionsGUIButton = {
-				w: 100,
+				w: 40,
 				h: 40,
-				x: widthMinusButton * 0.5,
-				y: canvasHeight - canvasHeight * 0.5,
-				value: "Instructions"
+				x: widthMinusButton * 0.03,
+				y: canvasHeight - canvasHeight * 0.05,
+				value: "?"
 			}
 			
 			function popup() {
@@ -69,6 +71,7 @@
 			 var light2 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 			var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
 			var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -900), scene);
+			//var camera = new BABYLON.TouchCamera("TouchCamera", new BABYLON.Vector3(0, 1, -600), scene);
 
 			camera.attachControl(canvas, false);
 
@@ -84,37 +87,44 @@
 			skyboxMaterial.disableLighting = true;
 			skybox.material = skyboxMaterial;
 			
-			var sphere = BABYLON.Mesh.CreateSphere("sphere1", 50, 100, scene);
-			var mat = new BABYLON.StandardMaterial("white", scene);
-			mat.diffuseTexture = new BABYLON.Texture("textures/suntexture.jpg", scene);
-			mat.specularColor = new BABYLON.Color3(0, 0, 0);
-			sphere.material = mat;
+						
+			var Star = function (position) {
+				this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 50, 100, scene);
+				this.mat = new BABYLON.StandardMaterial("white", scene);
+				this.mat.diffuseTexture = new BABYLON.Texture("textures/suntexture.jpg", scene);
+				this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
+				this.sphere.material = this.mat;
+				this.sphere.position = position;
+				
 
-			var particleSystem = new BABYLON.ParticleSystem("particles", 90000, scene);
-			particleSystem.particleTexture = new BABYLON.Texture("textures/fireflare.jpg", scene);
-			particleSystem.emitter = sphere;
-			particleSystem.color1 = new BABYLON.Color4(0.984, 0.337, 0.047, 1);
-			particleSystem.color2 = new BABYLON.Color4(0.984, 0.757, 0.047, 1);
-			particleSystem.minSize = 4;
-			particleSystem.maxSize = 8;
-			particleSystem.minLifeTime = 0.5;
-			particleSystem.maxLifeTime = 1.5;
-			particleSystem.emitRate = 90000;
-			particleSystem.direction1 = new BABYLON.Vector3(-80, 80, 80);
-			particleSystem.direction2 = new BABYLON.Vector3(80, -80, -80);
-			//angle
-			particleSystem.minAngularSpeed = 0;
-			particleSystem.maxAngularSpeed = Math.PI;
-			// Speed
-			particleSystem.minEmitPower = 1;
-			particleSystem.maxEmitPower =3;
-			particleSystem.updateSpeed = 0.01;
+				this.particleSystem = new BABYLON.ParticleSystem("particles", 15000, scene);
+				this.particleSystem.particleTexture = new BABYLON.Texture("textures/fireflare.jpg", scene);
+				this.particleSystem.emitter = this.sphere;
+				this.particleSystem.color1 = new BABYLON.Color4(0.984, 0.337, 0.047, 1);
+				this.particleSystem.color2 = new BABYLON.Color4(0.984, 0.757, 0.047, 1);
+				this.particleSystem.minSize = 8;
+				this.particleSystem.maxSize = 30;
+				this.particleSystem.minLifeTime = 0.5;
+				this.particleSystem.maxLifeTime = 0.8;
+				this.particleSystem.emitRate = 15000;
+				this.particleSystem.direction1 = new BABYLON.Vector3(-120, -120, -120);
+				this.particleSystem.direction2 = new BABYLON.Vector3(120, 120, 120);
+				this.particleSystem.minAngularSpeed = 0;
+				this.particleSystem.maxAngularSpeed = Math.PI;
+				this.particleSystem.minEmitPower = 1;
+				this.particleSystem.maxEmitPower = 3;
+				this.particleSystem.updateSpeed = 0.01;
+				this.particleSystem.start();
+			};
 
-			// Start the particle system
-			particleSystem.start();
-
-
+		//function starPosition (){}
 			
+			var star1 = new Star(new BABYLON.Vector3(500, 500, 1000));
+			var star2 = new Star(new BABYLON.Vector3(0, -100, 200));
+			var star3 = new Star(new BABYLON.Vector3(-600, 200, 1200));
+			
+
+
 			//http://www.babylonjs-playground.com/#1RDDIO#1
 			
 
