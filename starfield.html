@@ -8,7 +8,8 @@
         <script src="js/hand.minified-1.2.js"></script>
         <script src="js/cannon.js"></script>
         <script src="js/oimo.js"></script>
-        <script src="js/babylon.js"></script>
+        <script src="js/babylon.js" ></script>
+        <script src="js/star.js" ></script>
 
         <style>
             html, body {
@@ -29,7 +30,6 @@
     </head>
 <body>
     <canvas id="renderCanvas"></canvas>
-
     <script>
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
@@ -61,6 +61,8 @@
 			
 			var button = new CASTORGUI.GUIButton("button", optionsGUIButton, guisystem, popup);
 		};
+		
+
 
 		function createScene() {
 			var scene = new BABYLON.Scene(engine);
@@ -70,8 +72,8 @@
 			var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(10, 50, 50), scene);
 			 var light2 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 			var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
-			var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -900), scene);
-			//var camera = new BABYLON.TouchCamera("TouchCamera", new BABYLON.Vector3(0, 1, -600), scene);
+			//var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -900), scene);
+			var camera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -300), scene);
 
 			camera.attachControl(canvas, false);
 
@@ -88,40 +90,12 @@
 			skybox.material = skyboxMaterial;
 			
 						
-			var Star = function (position) {
-				this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 50, 100, scene);
-				this.mat = new BABYLON.StandardMaterial("white", scene);
-				this.mat.diffuseTexture = new BABYLON.Texture("textures/suntexture.jpg", scene);
-				this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
-				this.sphere.material = this.mat;
-				this.sphere.position = position;
-				
-
-				this.particleSystem = new BABYLON.ParticleSystem("particles", 15000, scene);
-				this.particleSystem.particleTexture = new BABYLON.Texture("textures/fireflare.jpg", scene);
-				this.particleSystem.emitter = this.sphere;
-				this.particleSystem.color1 = new BABYLON.Color4(0.984, 0.337, 0.047, 1);
-				this.particleSystem.color2 = new BABYLON.Color4(0.984, 0.757, 0.047, 1);
-				this.particleSystem.minSize = 8;
-				this.particleSystem.maxSize = 30;
-				this.particleSystem.minLifeTime = 0.5;
-				this.particleSystem.maxLifeTime = 0.8;
-				this.particleSystem.emitRate = 15000;
-				this.particleSystem.direction1 = new BABYLON.Vector3(-120, -120, -120);
-				this.particleSystem.direction2 = new BABYLON.Vector3(120, 120, 120);
-				this.particleSystem.minAngularSpeed = 0;
-				this.particleSystem.maxAngularSpeed = Math.PI;
-				this.particleSystem.minEmitPower = 1;
-				this.particleSystem.maxEmitPower = 3;
-				this.particleSystem.updateSpeed = 0.01;
-				this.particleSystem.start();
-			};
 
 		//function starPosition (){}
 			
-			var star1 = new Star(new BABYLON.Vector3(500, 500, 1000));
-			var star2 = new Star(new BABYLON.Vector3(0, -100, 200));
-			var star3 = new Star(new BABYLON.Vector3(-600, 200, 1200));
+			var star1 = new Star(new BABYLON.Vector3(500, 500, 1000), 1, scene);
+			var star2 = new Star(new BABYLON.Vector3(0, -100, 200), 2, scene);
+			var star3 = new Star(new BABYLON.Vector3(-600, 200, 1200), 0.5, scene);
 			
 
 
@@ -142,6 +116,7 @@
             engine.resize();
         });
     </script>
+
 </body>
 </html>
   
