@@ -73,9 +73,9 @@
 			 var light2 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 			var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
 			//var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -900), scene);
-			var camera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -300), scene);
+			var camera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -200), scene);
 
-			camera.attachControl(canvas, false);
+			camera.attachControl(canvas, true);
 
 
 			// Skybox
