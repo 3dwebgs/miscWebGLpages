@@ -1,3 +1,5 @@
+
+
 	var Star = function (position, size, scene) {
 		this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 50, 50*size, scene); 
 		this.mat = new BABYLON.StandardMaterial("white", scene);
