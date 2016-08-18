@@ -97,14 +97,16 @@
 			}
 			
 			
-			/*var star1 = new Star(new BABYLON.Vector3(500, 500, 1000), 1, scene);
-			var star2 = new Star(new BABYLON.Vector3(0, -100, 200), 2, scene);
-			var star3 = new Star(new BABYLON.Vector3(-600, 200, 1200), 0.5, scene);*/
+    BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "newrocket.babylon", scene, function (newMeshes) {
+        // Set the target of the camera to the first imported mesh
+        camera.target = newMeshes[0];
+    });
 			
 
 
 			//http://www.babylonjs-playground.com/#1RDDIO#1
-			
+			//http://www.babylonjs-playground.com/#11PO3E#2 import mesh
+			//http://www.babylonjs-playground.com/#1BT3LD#6
 
 			return scene;
 		};

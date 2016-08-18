@@ -9,3 +9,33 @@
 			skyboxMaterial.disableLighting = true;
 			skybox.material = skyboxMaterial;
 			*/
+
+//dragndrop smiley castorGUI
+		var scriptGUI = document.createElement("script");
+        scriptGUI.id = "scriptGUI";
+        scriptGUI.src = "http://www.babylon.actifgames.com/demoCastorGUI/castorGUI.min.js";
+        document.body.appendChild(scriptGUI);
+        
+        scriptGUI.onload = function()
+        {
+            guisystem = new CASTORGUI.GUIManager(canvas); 
+            
+            var canvasWidth = guisystem.getCanvasSize().width;
+            var canvasHeight = guisystem.getCanvasSize().height;
+            var widthMinusButton = canvasWidth - 100;
+            
+        	var optionsGUIButton = {
+				w: 100,
+				h: 40,
+				x: widthMinusButton - widthMinusButton * 0.5,
+				y: canvasHeight - canvasHeight * 0.12,
+				value: "Instructions"
+			}
+			
+			function popup() {
+				alert("Mouse: Move Smiley with left mouse button. Scroll wheel to zoom, and hold wheel down to move camera.\n\nTouchscreen: Pinch/spread to zoom, swipe to move Smiley or camera.\n\nTouchpad: Hold down touchpad with one finger to move Smiley or camera. Swipe up and down with two fingers to zoom.");
+			}
+			
+			var button = new CASTORGUI.GUIButton("button", optionsGUIButton, guisystem, popup);
+
+        };
