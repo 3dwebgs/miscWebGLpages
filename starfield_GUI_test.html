@@ -8,7 +8,7 @@
         <script src="js/hand.minified-1.2.js"></script>
         <script src="js/cannon.js"></script>
         <script src="js/oimo.js"></script>
-        <script src="http://cdn.babylonjs.com/2-4/babylon.js" ></script>
+        <script src="http://cdn.babylonjs.com/2-4/babylon.js"></script>
         <script src="js/star.js" ></script>
 
         <style>
@@ -34,34 +34,6 @@
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
         
-        var scriptGUI = document.createElement("script");
-        scriptGUI.id = "scriptGUI";
-        scriptGUI.src = "http://www.babylon.actifgames.com/demoCastorGUI/castorGUI.min.js";
-        document.body.appendChild(scriptGUI);
-        
-        scriptGUI.onload = function()
-        {
-            guisystem = new CASTORGUI.GUIManager(canvas); 
-            
-            var canvasWidth = guisystem.getCanvasSize().width;
-            var canvasHeight = guisystem.getCanvasSize().height;
-            var widthMinusButton = canvasWidth - 100;
-            
-        	var optionsGUIButton = {
-				w: 40,
-				h: 40,
-				x: widthMinusButton * 0.03,
-				y: canvasHeight - canvasHeight * 0.05,
-				value: "?"
-			}
-			
-			function popup() {
-				alert("Swipe sideways to pan left/right. Swipe up/down to move forward/backward.");
-			}
-			
-			var button = new CASTORGUI.GUIButton("button", optionsGUIButton, guisystem, popup);
-		};
-		
 
 
 		function createScene() {
@@ -72,10 +44,11 @@
 			var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(10, 50, 50), scene);
 			 var light2 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 			var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
-			var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
-			freeCamera.attachControl(canvas, true);
-			//var touchCamera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -100), scene);
-			//touchCamera.attachControl(canvas, true);
+			//var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
+			//freeCamera.attachControl(canvas, true);
+			var touchCamera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -100), scene);
+			touchCamera.attachControl(canvas, true);
+			
 			
 			var canvas2 = new BABYLON.ScreenSpaceCanvas2D(
 				scene, 
@@ -101,7 +74,7 @@
 			);
 			
 			var rect1 = new BABYLON.Rectangle2D({ parent: g1, id: "rect1", x: 50, y: 50, width: 100, height: 50,
-					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(Math.random(), Math.random(), Math.random(), 1)), roundRadius: 10 });
+					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
 			
 			var text = new BABYLON.Text2D(
 				"Controls", 
@@ -114,11 +87,10 @@
 			);
 
 			g1.pointerEventObservable.add(function (d, s) {
-				//text.text = "you just clicked on " + d.relatedTarget.id;
-				alert("Swipe sideways to pan left/right. Swipe up/down to move forward/backward. \n\nMouse: Hold left button to pan left/right, and up/down to move forward/backward." );
+				alert("Touchscreen: Swipe sideways to pan left/right. Swipe up/down to move forward/backward. \n\nMouse: Hold left button to pan camera. Use arrow keys to move." );
 			}, BABYLON.PrimitivePointerInfo.PointerUp);
+					
 			
-	
 			
 			//axis number:  (Math.random()*1000) / 2; 
 			// star size:  (Math.random()*10) / 2;  
@@ -127,25 +99,18 @@
 			var starLocations = [];
 			function posOrNeg(){ return Math.random() < 0.5 ? -1 : 1;}
 			
-			for (i = 0; i <= 100; i++) {
+			for (i = 0; i <= 50; i++) {
 				starLocations[i] = new Star(
 					new BABYLON.Vector3(
-						((Math.random()*2000) + 100)*posOrNeg(), 
-						((Math.random()*2000) + 100)*posOrNeg(), 
-						((Math.random()*2000) + 100)*posOrNeg()
+						((Math.random()*1000) + 100)*posOrNeg(), 
+						((Math.random()*1000) + 100)*posOrNeg(), 
+						((Math.random()*1000) + 100)
 					), 
 					(Math.random()*10) / 4, 
 					scene
 				);
 			}
 			
-			
-    BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "newrocket.babylon", scene, function (newMeshes) {
-        // Set the target of the camera to the first imported mesh
-        camera.target = newMeshes[0];
-    });
-			
-
 
 			//http://www.babylonjs-playground.com/#1RDDIO#1
 			//http://www.babylonjs-playground.com/#11PO3E#2 import mesh
