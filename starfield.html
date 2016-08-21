@@ -3,12 +3,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        <title>Babylon.js sample code</title>
+        <title>Starfield</title>
         <!-- Babylon.js -->
         <script src="js/hand.minified-1.2.js"></script>
         <script src="js/cannon.js"></script>
         <script src="js/oimo.js"></script>
-        <script src="js/babylon.js" ></script>
+        <script src="http://cdn.babylonjs.com/2-4/babylon.js"></script>
         <script src="js/star.js" ></script>
 
         <style>
@@ -34,34 +34,6 @@
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
         
-        var scriptGUI = document.createElement("script");
-        scriptGUI.id = "scriptGUI";
-        scriptGUI.src = "http://www.babylon.actifgames.com/demoCastorGUI/castorGUI.min.js";
-        document.body.appendChild(scriptGUI);
-        
-        scriptGUI.onload = function()
-        {
-            guisystem = new CASTORGUI.GUIManager(canvas); 
-            
-            var canvasWidth = guisystem.getCanvasSize().width;
-            var canvasHeight = guisystem.getCanvasSize().height;
-            var widthMinusButton = canvasWidth - 100;
-            
-        	var optionsGUIButton = {
-				w: 40,
-				h: 40,
-				x: widthMinusButton * 0.03,
-				y: canvasHeight - canvasHeight * 0.05,
-				value: "?"
-			}
-			
-			function popup() {
-				alert("Left mouse button to move camera. Arrow keys to move.");
-			}
-			
-			var button = new CASTORGUI.GUIButton("button", optionsGUIButton, guisystem, popup);
-		};
-		
 
 
 		function createScene() {
@@ -72,10 +44,53 @@
 			var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(10, 50, 50), scene);
 			 var light2 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 			var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
-			var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
-			freeCamera.attachControl(canvas, true);
-			//var touchCamera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -100), scene);
-			//touchCamera.attachControl(canvas, true);
+			//var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
+			//freeCamera.attachControl(canvas, true);
+			var touchCamera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -100), scene);
+			touchCamera.attachControl(canvas, true);
+			
+			
+			var canvas2 = new BABYLON.ScreenSpaceCanvas2D(
+				scene, 
+				{ 
+					id: "ScreenCanvas", 
+					size: new BABYLON.Size(600, 400), 
+					cachingStrategy: BABYLON.Canvas2D.CACHESTRATEGY_DONTCACHE, 
+					//backgroundFill: BABYLON.Canvas2D.GetSolidColorBrushFromHex("#80808040"), 
+					//backgroundRoundRadius: 100, 
+					//backgroundBorder: BABYLON.Canvas2D.GetSolidColorBrushFromHex("#FFFFFFFF"), 
+					//backgroundBorderThickNess: 4 
+				}
+			);
+			
+			var g1 = new BABYLON.Group2D(
+				{ 
+					parent: canvas2, 
+					id: "g1", 
+					position: new BABYLON.Vector2(0, 0), 
+					origin: new BABYLON.Vector2(0.5, 0.5), 
+					size: new BABYLON.Size(600, 600) 
+				}
+			);
+			
+			var rect1 = new BABYLON.Rectangle2D({ parent: g1, id: "rect1", x: 50, y: 50, width: 100, height: 50,
+					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
+			
+			var text = new BABYLON.Text2D(
+				"Controls", 
+				{ 
+					parent: rect1, 
+					marginAlignment: "h:center, v:center", 
+					fontName: "12pt Arial", 
+					defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+				}
+			);
+
+			g1.pointerEventObservable.add(function (d, s) {
+				alert("Touchscreen: Swipe sideways to pan left/right. Swipe up/down to move forward/backward. \n\nMouse: Hold left button to pan camera. Use arrow keys to move." );
+			}, BABYLON.PrimitivePointerInfo.PointerUp);
+					
+			
 			
 			//axis number:  (Math.random()*1000) / 2; 
 			// star size:  (Math.random()*10) / 2;  
@@ -84,27 +99,22 @@
 			var starLocations = [];
 			function posOrNeg(){ return Math.random() < 0.5 ? -1 : 1;}
 			
-			for (i = 0; i <= 100; i++) {
+			for (i = 0; i <= 50; i++) {
 				starLocations[i] = new Star(
 					new BABYLON.Vector3(
-						((Math.random()*2000) + 100)*posOrNeg(), 
-						((Math.random()*2000) + 100)*posOrNeg(), 
-						((Math.random()*2000) + 100)*posOrNeg()
+						((Math.random()*1000) + 100)*posOrNeg(), 
+						((Math.random()*1000) + 100)*posOrNeg(), 
+						((Math.random()*1000) + 100)
 					), 
 					(Math.random()*10) / 4, 
 					scene
 				);
 			}
 			
-			
-			/*var star1 = new Star(new BABYLON.Vector3(500, 500, 1000), 1, scene);
-			var star2 = new Star(new BABYLON.Vector3(0, -100, 200), 2, scene);
-			var star3 = new Star(new BABYLON.Vector3(-600, 200, 1200), 0.5, scene);*/
-			
-
 
 			//http://www.babylonjs-playground.com/#1RDDIO#1
-			
+			//http://www.babylonjs-playground.com/#11PO3E#2 import mesh
+			//http://www.babylonjs-playground.com/#1BT3LD#6
 
 			return scene;
 		};
