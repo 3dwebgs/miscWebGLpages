@@ -28,3 +28,13 @@
 		this.particleSystem.updateSpeed = 0.01;
 		this.particleSystem.start();
 	};
+
+	var WhiteStar = function(position, size, scene){
+		this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 25, 25*size, scene); 
+		this.mat = new BABYLON.StandardMaterial("white", scene);
+		this.mat.emissiveColor = new BABYLON.Color3(1, 1, 1);
+		this.sphere.material = this.mat;
+		this.sphere.position = position;
+		
+
+	}
