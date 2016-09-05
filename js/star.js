@@ -8,8 +8,7 @@
 		this.sphere.material = this.mat;
 		this.sphere.position = position;
 		
-
-		this.particleSystem = new BABYLON.ParticleSystem("particles", 1500, scene);
+		this.particleSystem = new BABYLON.ParticleSystem("particles", 800, scene);
 		this.particleSystem.particleTexture = new BABYLON.Texture("textures/fireflare.jpg", scene);
 		this.particleSystem.emitter = this.sphere;
 		this.particleSystem.color1 = new BABYLON.Color4(0.984, 0.337, 0.047, 1);
@@ -18,7 +17,7 @@
 		this.particleSystem.maxSize = 60*size;
 		this.particleSystem.minLifeTime = 0.25*size;
 		this.particleSystem.maxLifeTime = 0.25*size;
-		this.particleSystem.emitRate = 1500;
+		this.particleSystem.emitRate = 800;
 		this.particleSystem.direction1 = new BABYLON.Vector3(-120, -120, -120);
 		this.particleSystem.direction2 = new BABYLON.Vector3(120, 120, 120);
 		this.particleSystem.minAngularSpeed = 0;
@@ -28,3 +27,14 @@
 		this.particleSystem.updateSpeed = 0.01;
 		this.particleSystem.start();
 	};
+
+
+	var WhiteStar = function(position, size, scene){
+		this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 25, 25*size, scene); 
+		this.mat = new BABYLON.StandardMaterial("white", scene);
+		this.mat.emissiveColor = new BABYLON.Color3(1, 1, 1);
+		this.sphere.material = this.mat;
+		this.sphere.position = position;
+		
+
+	}
