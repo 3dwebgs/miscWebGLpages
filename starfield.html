@@ -56,10 +56,6 @@
 					id: "ScreenCanvas", 
 					size: new BABYLON.Size(600, 400), 
 					cachingStrategy: BABYLON.Canvas2D.CACHESTRATEGY_DONTCACHE, 
-					//backgroundFill: BABYLON.Canvas2D.GetSolidColorBrushFromHex("#80808040"), 
-					//backgroundRoundRadius: 100, 
-					//backgroundBorder: BABYLON.Canvas2D.GetSolidColorBrushFromHex("#FFFFFFFF"), 
-					//backgroundBorderThickNess: 4 
 				}
 			);
 			
@@ -96,25 +92,34 @@
 			// star size:  (Math.random()*10) / 2;  
 			// pos or neg: Math.random()
 			
-			var starLocations = [];
+			var yellowStarLocations = [];
 			function posOrNeg(){ return Math.random() < 0.5 ? -1 : 1;}
 			
-			for (i = 0; i <= 50; i++) {
-				starLocations[i] = new Star(
+			for (i = 0; i <= 35; i++) {
+				yellowStarLocations[i] = new Star(
 					new BABYLON.Vector3(
-						((Math.random()*1000) + 100)*posOrNeg(), 
-						((Math.random()*1000) + 100)*posOrNeg(), 
-						((Math.random()*1000) + 100)
+						((Math.random()*1500) + 100)*posOrNeg(), 
+						((Math.random()*1500) + 100)*posOrNeg(), 
+						((Math.random()*1500) + 100)*posOrNeg()
 					), 
-					(Math.random()*10) / 4, 
+					(Math.random()*10) / 3, 
 					scene
 				);
 			}
 			
+			var whiteStarLocations = [];
+			for (i = 0; i <= 1000; i++) {
+				whiteStarLocations[i] = new WhiteStar(
+					new BABYLON.Vector3(
+						((Math.random()*4000) + 1000)*posOrNeg(), 
+						((Math.random()*4000) + 1000)*posOrNeg(), 
+						((Math.random()*4000) + 1000)*posOrNeg()
+					), 
+					Math.random()*1.5, 
+					scene
+				);
+			}
 
-			//http://www.babylonjs-playground.com/#1RDDIO#1
-			//http://www.babylonjs-playground.com/#11PO3E#2 import mesh
-			//http://www.babylonjs-playground.com/#1BT3LD#6
 
 			return scene;
 		};
