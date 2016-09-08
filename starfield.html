@@ -57,13 +57,11 @@
 			// star size:  (Math.random()*10) / 2;  
 			// pos or neg: Math.random()
 			
-			var yellowStarLocations = [];
 			function posOrNeg(){ return Math.random() < 0.5 ? -1 : 1;}
 			
 
-			
 			var whiteStarLocations = [];
-			for (i = 0; i <= 1000; i++) {
+			for (i = 0; i <= 500; i++) {
 				whiteStarLocations[i] = new WhiteStar(
 					new BABYLON.Vector3(
 						((Math.random()*2000) + 100)*posOrNeg(), 
