@@ -50,42 +50,7 @@
 			touchCamera.attachControl(canvas, true);
 			
 			
-			var canvas2 = new BABYLON.ScreenSpaceCanvas2D(
-				scene, 
-				{ 
-					id: "ScreenCanvas", 
-					size: new BABYLON.Size(600, 400), 
-					cachingStrategy: BABYLON.Canvas2D.CACHESTRATEGY_DONTCACHE, 
-				}
-			);
-			
-			var g1 = new BABYLON.Group2D(
-				{ 
-					parent: canvas2, 
-					id: "g1", 
-					position: new BABYLON.Vector2(0, 0), 
-					origin: new BABYLON.Vector2(0.5, 0.5), 
-					size: new BABYLON.Size(600, 600) 
-				}
-			);
-			
-			var rect1 = new BABYLON.Rectangle2D({ parent: g1, id: "rect1", x: 50, y: 50, width: 100, height: 50,
-					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
-			
-			var text = new BABYLON.Text2D(
-				"Controls", 
-				{ 
-					parent: rect1, 
-					marginAlignment: "h:center, v:center", 
-					fontName: "12pt Arial", 
-					defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
-				}
-			);
 
-			g1.pointerEventObservable.add(function (d, s) {
-				alert("Touchscreen: Swipe sideways to pan left/right. Swipe up/down to move forward/backward. \n\nMouse: Hold left button to pan camera. Use arrow keys to move." );
-			}, BABYLON.PrimitivePointerInfo.PointerUp);
-					
 			
 			
 			//axis number:  (Math.random()*1000) / 2; 
@@ -95,25 +60,15 @@
 			var yellowStarLocations = [];
 			function posOrNeg(){ return Math.random() < 0.5 ? -1 : 1;}
 			
-			for (i = 0; i <= 35; i++) {
-				yellowStarLocations[i] = new Star(
-					new BABYLON.Vector3(
-						((Math.random()*1500) + 100)*posOrNeg(), 
-						((Math.random()*1500) + 100)*posOrNeg(), 
-						((Math.random()*1500) + 100)*posOrNeg()
-					), 
-					(Math.random()*10) / 3, 
-					scene
-				);
-			}
+
 			
 			var whiteStarLocations = [];
 			for (i = 0; i <= 1000; i++) {
 				whiteStarLocations[i] = new WhiteStar(
 					new BABYLON.Vector3(
-						((Math.random()*4000) + 1000)*posOrNeg(), 
-						((Math.random()*4000) + 1000)*posOrNeg(), 
-						((Math.random()*4000) + 1000)*posOrNeg()
+						((Math.random()*2000) + 100)*posOrNeg(), 
+						((Math.random()*2000) + 100)*posOrNeg(), 
+						((Math.random()*2000) + 100)*posOrNeg()
 					), 
 					Math.random()*1.5, 
 					scene
