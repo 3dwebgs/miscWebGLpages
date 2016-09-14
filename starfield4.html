@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -41,9 +42,9 @@
 			scene.clearColor = new BABYLON.Color3(0, 0, 0);
 			//scene.debugLayer.show();
 
-			var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(10, 50, 50), scene);
-			 var light2 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 			var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
+			light3.groundColor = BABYLON.Color3.Gray();
+			light3.intensity = .4;
 			//var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
 			//freeCamera.attachControl(canvas, true);
 			var touchCamera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -100), scene);
@@ -135,9 +136,9 @@
 			for (k = 0; k <= 500; k++) {
 				whiteStarLocations[k] = new WhiteStar(
 					new BABYLON.Vector3(
-						(Math.random()*1500 * posOrNeg()) + (500*posOrNeg()), 
-						(Math.random()*1500 * posOrNeg()) + (500*posOrNeg()), 
-						(Math.random()*1500 * posOrNeg()) + (500*posOrNeg())
+						(Math.random()*1000 * posOrNeg()) + (500*posOrNeg()), 
+						(Math.random()*1000 * posOrNeg()) + (500*posOrNeg()), 
+						(Math.random()*1000 * posOrNeg()) + (500*posOrNeg())
 					), 
 					Math.random()*.5, 
 					scene
