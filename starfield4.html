@@ -9,7 +9,8 @@
         <script src="js/hand.minified-1.2.js"></script>
         <script src="js/cannon.js"></script>
         <script src="js/oimo.js"></script>
-                <script src="http://www.babylonjs.com/babylon.js"></script>
+        <script src="http://www.babylonjs.com/babylon.js"></script>
+        <script src="js/buttonControls.js" ></script>   
         <script src="js/star.js" ></script>
 
         <style>
@@ -45,48 +46,13 @@
 			var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
 			light3.groundColor = BABYLON.Color3.Gray();
 			light3.intensity = .4;
-			//var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
-			//freeCamera.attachControl(canvas, true);
-			var touchCamera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -100), scene);
-			touchCamera.attachControl(canvas, true);
+			var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
+			freeCamera.attachControl(canvas, true);
+			//var touchCamera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -100), scene);
+			//touchCamera.attachControl(canvas, true);
 			
-			
-			var canvas2 = new BABYLON.ScreenSpaceCanvas2D(
-				scene, 
-				{ 
-					id: "ScreenCanvas", 
-					size: new BABYLON.Size(600, 400), 
-					cachingStrategy: BABYLON.Canvas2D.CACHESTRATEGY_DONTCACHE, 
-				}
-			);
-			
-			var g1 = new BABYLON.Group2D(
-				{ 
-					parent: canvas2, 
-					id: "g1", 
-					position: new BABYLON.Vector2(0, 0), 
-					origin: new BABYLON.Vector2(0.5, 0.5), 
-					size: new BABYLON.Size(600, 600) 
-				}
-			);
-			
-			var rect1 = new BABYLON.Rectangle2D({ parent: g1, id: "rect1", x: 50, y: 50, width: 100, height: 50,
-					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
-			
-			var text = new BABYLON.Text2D(
-				"Controls", 
-				{ 
-					parent: rect1, 
-					marginAlignment: "h:center, v:center", 
-					fontName: "12pt Arial", 
-					defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
-				}
-			);
 
-			rect1.pointerEventObservable.add(function (d, s) {
-				alert("Touchscreen: Swipe sideways to pan left/right, or up/down with 2 fingers to move camera. Swipe updown with 1 finger to move forward/backward. \n\nMouse: Hold left button to pan camera. Use arrow keys to move." );
-			}, BABYLON.PrimitivePointerInfo.PointerUp);
-					
+			createButtonControls(scene, freeCamera);
 			
 			
 
