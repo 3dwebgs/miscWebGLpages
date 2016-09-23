@@ -71,7 +71,7 @@ function createButtonControls (scene, camera) {
 	//BUTTONS & TEXT
 	
 	
-	var leftCamButton = new BABYLON.Rectangle2D({ parent: grpCamLeft, id: "leftButton", marginBottom:165, marginRight: 10, Mwidth: 55, height: 50,
+	var leftCamButton = new BABYLON.Rectangle2D({ parent: grpCamLeft, id: "leftButton", marginBottom:165, marginRight: 10, width: 55, height: 50,
 			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 0.7)), roundRadius: 10 });
 	
 	var textCamLeft = new BABYLON.Text2D(
