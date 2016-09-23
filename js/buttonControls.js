@@ -15,14 +15,13 @@ function createButtonControls (scene, camera) {
 		{ 
 			parent: canvas2, 
 			id: "grpMain", 
-			position: new BABYLON.Vector2(40, 40), 
+			position: new BABYLON.Vector2(30, 40), 
 			origin: new BABYLON.Vector2(0.5, 0.5), 
-			//size: new BABYLON.Size(canvasWidth, 600),
+			size: new BABYLON.Size(canvasWidth, 600),
 			layoutEngine:"HorizontalStackPanel"
 
 		}
 	);
-
 	
 	var grpLeft = new BABYLON.Group2D(
 		{ 
@@ -141,20 +140,20 @@ function createButtonControls (scene, camera) {
 	 * 	camera rotation
 	 */
 
-	/*var grpCamMain = new BABYLON.Group2D(
+	var grpCamMain = new BABYLON.Group2D(
 		{ 
-			parent: grpMain, 
+			parent: canvas2, 
 			id: "grpCamMain", 
 			x: canvasWidth - 250,
 			y: 40,
 			size: new BABYLON.Size(600, 400),
 			layoutEngine:"HorizontalStackPanel"
 		}
-	);*/
+	);
 	
 	var grpCamLeft = new BABYLON.Group2D(
 		{ 
-			parent: grpMain, 
+			parent: grpCamMain, 
 			id: "grpCamLeft", 
 			size: new BABYLON.Size(55, 400),
 			layoutEngine:"VerticalStackPanel"
@@ -163,8 +162,9 @@ function createButtonControls (scene, camera) {
 	
 	var grpCamCenter = new BABYLON.Group2D(
 		{ 
-			parent: grpMain, 
+			parent: grpCamMain, 
 			id: "grpCamCenter",
+			y: 30,
 			size: new BABYLON.Size(55, 400),
 			layoutEngine:"VerticalStackPanel"
 		}
@@ -172,14 +172,14 @@ function createButtonControls (scene, camera) {
 	
 	var grpCamRight = new BABYLON.Group2D(
 		{ 
-			parent: grpMain, 
+			parent: grpCamMain, 
 			id: "grpCamRight", 
 			size: new BABYLON.Size(55, 400),
 			layoutEngine:"VerticalStackPanel"
 		}
 	);
 	
-	var leftCamButton = new BABYLON.Rectangle2D({ parent: grpCamLeft, id: "leftButton", marginBottom:80, marginLeft: canvasWidth-500, width: 50, height: 50,
+	var leftCamButton = new BABYLON.Rectangle2D({ parent: grpCamLeft, id: "leftButton", marginBottom:80, marginLeft: 5, width: 50, height: 50,
 			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
 	
 	
@@ -193,7 +193,7 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	var downCamButton = new BABYLON.Rectangle2D({ parent: grpCamCenter, id: "downButton", marginBottom:25, marginTop: 50, marginLeft: canvasWidth-495, width: 50, height: 50,
+	var downCamButton = new BABYLON.Rectangle2D({ parent: grpCamCenter, id: "downButton", marginBottom:25, marginTop: 50, marginLeft: 5, width: 50, height: 50,
 			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
 	
 	var textCamDown = new BABYLON.Text2D(
@@ -206,7 +206,7 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	var upCamButton = new BABYLON.Rectangle2D({ parent: grpCamCenter, id: "upButton", marginBottom: 10, marginLeft: canvasWidth-495, width: 50, height: 50,
+	var upCamButton = new BABYLON.Rectangle2D({ parent: grpCamCenter, id: "upButton", marginBottom: 10, marginLeft: 5, width: 50, height: 50,
 			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
 	
 	var textCamUp = new BABYLON.Text2D(
@@ -219,7 +219,7 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	var rightCamButton = new BABYLON.Rectangle2D({ parent: grpCamRight, id: "rightButton", marginBottom:80, marginLeft: canvasWidth - 495, width: 50, height: 50,
+	var rightCamButton = new BABYLON.Rectangle2D({ parent: grpCamRight, id: "rightButton", marginBottom:80, width: 50, height: 50,
 			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
 			
 
@@ -233,14 +233,17 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	
-	
+	// temp ground
+    //var ground = BABYLON.Mesh.CreateGround("ground1", 300, 300, 1, scene);
+	//ground.position.y = -1;
+
 	
 	//observables
-	
+
 	var thing = BABYLON.MeshBuilder.CreateBox("thing", 10, scene);
 	thing.showBoundingBox = true;
 	camera.position.z = -10;
+	// var thing = camera;
 	var posStep = 20;
 	var rotStep = .1;
 	
@@ -248,45 +251,55 @@ function createButtonControls (scene, camera) {
 	thing.visibility = 0;
 
 	forwardButton.pointerEventObservable.add(function (d, s) {
+		//thing.position.z += posStep;
 		thing.translate(BABYLON.Axis.Z, posStep, BABYLON.Space.LOCAL);
+		//thing.cameraDirection.z += posStep;
 	}, BABYLON.PrimitivePointerInfo.PointerUp);
 				
 	backButton.pointerEventObservable.add(function (d, s) {
+		// thing.position.z -= posStep;
 		thing.translate(BABYLON.Axis.Z, -posStep, BABYLON.Space.LOCAL);
 	}, BABYLON.PrimitivePointerInfo.PointerUp);	
 
 	leftButton.pointerEventObservable.add(function (d, s) {
+		// thing.position.x -= posStep;
 		thing.translate(BABYLON.Axis.X, -posStep, BABYLON.Space.LOCAL);
 	}, BABYLON.PrimitivePointerInfo.PointerUp);
 				
 	rightButton.pointerEventObservable.add(function (d, s) {
+		// thing.position.x += posStep;
 		thing.translate(BABYLON.Axis.X, posStep, BABYLON.Space.LOCAL);
 	}, BABYLON.PrimitivePointerInfo.PointerUp);
 
 	upButton.pointerEventObservable.add(function (d, s) {
+		// thing.position.y += posStep;
 		thing.translate(BABYLON.Axis.Y, posStep, BABYLON.Space.LOCAL);
 	}, BABYLON.PrimitivePointerInfo.PointerUp);
 	
 	downButton.pointerEventObservable.add(function (d, s) {
+		// thing.position.y -= posStep;
 		thing.translate(BABYLON.Axis.Y, -posStep, BABYLON.Space.LOCAL);
 	}, BABYLON.PrimitivePointerInfo.PointerUp);
 	
 	leftCamButton.pointerEventObservable.add(function (d, s) {
+		// thing.rotation.y -= rotStep;
 		thing.rotate(BABYLON.Axis.Y, -rotStep, BABYLON.Space.LOCAL);
+
 	}, BABYLON.PrimitivePointerInfo.PointerUp);
 	
 	rightCamButton.pointerEventObservable.add(function (d, s) {
+		// thing.rotation.y += rotStep;
 		thing.rotate(BABYLON.Axis.Y, rotStep, BABYLON.Space.LOCAL);
 	}, BABYLON.PrimitivePointerInfo.PointerUp);
 	
 	upCamButton.pointerEventObservable.add(function (d, s) {
+		// thing.rotation.x -= rotStep;
 		thing.rotate(BABYLON.Axis.X, -rotStep, BABYLON.Space.LOCAL);
 	}, BABYLON.PrimitivePointerInfo.PointerUp);
 	
 	downCamButton.pointerEventObservable.add(function (d, s) {
+		// thing.rotation.x += rotStep;
 		thing.rotate(BABYLON.Axis.X, rotStep, BABYLON.Space.LOCAL);
 	}, BABYLON.PrimitivePointerInfo.PointerUp);
 
 }
-
-
