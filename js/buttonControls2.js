@@ -1,3 +1,5 @@
+
+
 function createButtonControls (scene, camera) {
 	
 	var canvasWidth = canvas.width;
@@ -206,34 +208,7 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	
-	/*
-	 * 	camera rotation
-	 */
 
-	var grpCamMain = new BABYLON.Group2D(
-		{ 
-			parent: canvas2, 
-			id: "grpCamMain", 
-			x: canvasWidth - 250,
-			y: 40,
-			size: new BABYLON.Size(600, 400),
-			layoutEngine:"HorizontalStackPanel"
-		}
-	);
-	
-
-	
-	var grpCamCenter = new BABYLON.Group2D(
-		{ 
-			parent: grpCamMain, 
-			id: "grpCamCenter",
-			y: 30,
-			size: new BABYLON.Size(55, 400),
-			layoutEngine:"VerticalStackPanel"
-		}
-	);
-	
 
 	
 	//observables
