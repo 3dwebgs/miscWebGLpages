@@ -10,7 +10,7 @@
         <script src="js/cannon.js"></script>
         <script src="js/oimo.js"></script>
         <script src="http://www.babylonjs.com/babylon.js"></script>
-        <script src="js/buttonControls.js" ></script>   
+        <script src="js/buttonControls2.js" ></script>   
         <script src="js/star.js" ></script>
 
         <style>
@@ -35,11 +35,12 @@
     <script>
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
-        
-
+ 
 
 		function createScene() {
+
 			var scene = new BABYLON.Scene(engine);
+			engine.displayLoadingUI();
 			scene.clearColor = new BABYLON.Color3(0, 0, 0);
 			//scene.debugLayer.show();
 
@@ -52,8 +53,13 @@
 			//touchCamera.attachControl(canvas, true);
 			
 
-			createButtonControls(scene, freeCamera);
+			var GUI = createButtonControls(scene, freeCamera);
 			
+			/*window.addEventListener("resize", function () {
+				GUI = null;
+				GUI = createButtonControls(scene, freeCamera);
+
+        });*/
 			
 
 			function posOrNeg(){ return Math.random() < 0.5 ? -1 : 1;}
@@ -111,8 +117,11 @@
 				);
 			}
 			
+			//fire texture  http://www.babylonjs-playground.com/#KM3TC#15
 
-
+			setTimeout(function () {
+				engine.hideLoadingUI();
+			}, 16);
 
 			return scene;
 		};
@@ -126,6 +135,7 @@
         // Resize
         window.addEventListener("resize", function () {
             engine.resize();
+
         });
     </script>
 

@@ -1,6 +1,10 @@
+
+
 function createButtonControls (scene, camera) {
 	
 	var canvasWidth = canvas.width;
+		var sideHeight = 140;
+	var transparency = 0.5;
 	
 	var canvas2 = new BABYLON.ScreenSpaceCanvas2D(
 		scene, 
@@ -23,11 +27,24 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
+
+
+	var grpCamLeft = new BABYLON.Group2D(
+		{ 
+			parent: grpMain, 
+
+			id: "grpCamLeft", 
+			size: new BABYLON.Size(65, 400),
+			layoutEngine:"VerticalStackPanel"
+		}
+	);
+	
 	var grpLeft = new BABYLON.Group2D(
 		{ 
 			parent: grpMain, 
+
 			id: "grpLeft", 
-			size: new BABYLON.Size(75, 200),
+			size: new BABYLON.Size(55, 200),
 			layoutEngine:"VerticalStackPanel"
 		}
 	);
@@ -36,7 +53,7 @@ function createButtonControls (scene, camera) {
 		{ 
 			parent: grpMain, 
 			id: "grpCenter",  
-			size: new BABYLON.Size(75, 200),
+			size: new BABYLON.Size(55, 400),
 			layoutEngine:"VerticalStackPanel"
 		}
 	);
@@ -45,70 +62,39 @@ function createButtonControls (scene, camera) {
 		{ 
 			parent: grpMain, 
 			id: "grpRight", 
-			size: new BABYLON.Size(75, 200),
+			size: new BABYLON.Size(50, 200),
 			layoutEngine:"VerticalStackPanel"
 		}
 	);
 	
-	//middle stack
-	
-	var downButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "downButton", marginTop:10, marginLeft: 10, width: 50, height: 50,
-			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
-	
-	var textDown = new BABYLON.Text2D(
-		"D", 
+	var grpCamRight = new BABYLON.Group2D(
 		{ 
-			parent: downButton, 
-			marginAlignment: "h:center, v:center", 
-			fontName: "12pt Arial", 
-			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
-		}
-	);
-		
-	var backButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "backButton", marginTop:5, width: 70, height: 40,
-			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
-	
-	var textBack = new BABYLON.Text2D(
-		"B", 
-		{ 
-			parent: backButton,
-			marginAlignment: "h:center, v:center", 
-			fontName: "12pt Arial", 
-			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+			parent: grpMain, 
+			marginLeft: 10,
+			id: "grpCamRight", 
+			size: new BABYLON.Size(65, 400),
+			layoutEngine:"VerticalStackPanel"
 		}
 	);
 	
-	var forwardButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "forwardButton", width: 70, height: 40,
-		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
+	//BUTTONS & TEXT
 	
-	var textForward = new BABYLON.Text2D(
-		"F", 
+	
+	var leftCamButton = new BABYLON.Rectangle2D({ parent: grpCamLeft, id: "leftButton", marginBottom:sideHeight, width: 55, height: 50,
+			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	
+	var textCamLeft = new BABYLON.Text2D(
+		"Cam-L", 
 		{ 
-			parent: forwardButton, 
-			marginAlignment: "h:center, v:center", 
-			fontName: "12pt Arial", 
-			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
-		}
-	);
-
-	
-	var upButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "upButton", marginBottom: 10, marginLeft: 10, width: 50, height: 50,
-			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
-	
-	var textUp = new BABYLON.Text2D(
-		"U", 
-		{ 
-			parent: upButton, 
+			parent: leftCamButton, 
 			marginAlignment: "h:center, v:center", 
 			fontName: "12pt Arial", 
 			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
 		}
 	);
 	
-	//left and right
-	
-	var leftButton = new BABYLON.Rectangle2D({ parent: grpLeft, id: "leftButton", marginBottom:80, marginLeft: 10, width: 50, height: 50,
-			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
+	var leftButton = new BABYLON.Rectangle2D({ parent: grpLeft, id: "leftButton", marginBottom:sideHeight, width: 50, height: 50,
+		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
 	
 	
 	var textLeft = new BABYLON.Text2D(
@@ -121,8 +107,88 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	var rightButton = new BABYLON.Rectangle2D({ parent: grpRight, id: "rightButton", marginBottom:80, marginLeft: 8, width: 50, height: 50,
-			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
+	var downCamButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "downButton", marginTop: 10, width: 50, height: 50,
+		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	
+	var textCamDown = new BABYLON.Text2D(
+		"Cam-D", 
+		{ 
+			parent: downCamButton, 
+			marginAlignment: "h:center, v:center", 
+			fontName: "12pt Arial", 
+			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+		}
+	);
+	
+	var downButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "downButton", marginTop: 5, width: 50, height: 50,
+			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	
+	var textDown = new BABYLON.Text2D(
+		"D", 
+		{ 
+			parent: downButton, 
+			marginAlignment: "h:center, v:center", 
+			fontName: "12pt Arial", 
+			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+		}
+	);
+		
+	var backButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "backButton", marginTop: 5, width: 50, height: 50,
+			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	
+	var textBack = new BABYLON.Text2D(
+		"B", 
+		{ 
+			parent: backButton,
+			marginAlignment: "h:center, v:center", 
+			fontName: "12pt Arial", 
+			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+		}
+	);
+	
+	var forwardButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "forwardButton",  marginTop: 5, width: 50, height: 50,
+		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	
+	var textForward = new BABYLON.Text2D(
+		"F", 
+		{ 
+			parent: forwardButton, 
+			marginAlignment: "h:center, v:center", 
+			fontName: "12pt Arial", 
+			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+		}
+	);
+
+	
+	var upButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "upButton", margin: 1, width: 50, height: 50,
+			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	
+	var textUp = new BABYLON.Text2D(
+		"U", 
+		{ 
+			parent: upButton, 
+			marginAlignment: "h:center, v:center", 
+			fontName: "12pt Arial", 
+			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+		}
+	);
+	
+	var upCamButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "upButton", marginBottom: 5, width: 50, height: 50,
+		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	
+	var textCamUp = new BABYLON.Text2D(
+		"Cam-U", 
+		{ 
+			parent: upCamButton, 
+			marginAlignment: "h:center, v:center", 
+			fontName: "12pt Arial", 
+			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+		}
+	);
+	
+	
+	var rightButton = new BABYLON.Rectangle2D({ parent: grpRight, id: "rightButton", marginBottom:sideHeight, width: 50, height: 50,
+			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
 			
 	
 	var textRight = new BABYLON.Text2D(
@@ -135,96 +201,12 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	
-	/*
-	 * 	camera rotation
-	 */
-
-	var grpCamMain = new BABYLON.Group2D(
-		{ 
-			parent: canvas2, 
-			id: "grpCamMain", 
-			x: canvasWidth - 250,
-			y: 40,
-			size: new BABYLON.Size(600, 400),
-			layoutEngine:"HorizontalStackPanel"
-		}
-	);
-	
-	var grpCamLeft = new BABYLON.Group2D(
-		{ 
-			parent: grpCamMain, 
-			id: "grpCamLeft", 
-			size: new BABYLON.Size(55, 400),
-			layoutEngine:"VerticalStackPanel"
-		}
-	);
-	
-	var grpCamCenter = new BABYLON.Group2D(
-		{ 
-			parent: grpCamMain, 
-			id: "grpCamCenter",
-			y: 30,
-			size: new BABYLON.Size(55, 400),
-			layoutEngine:"VerticalStackPanel"
-		}
-	);
-	
-	var grpCamRight = new BABYLON.Group2D(
-		{ 
-			parent: grpCamMain, 
-			id: "grpCamRight", 
-			size: new BABYLON.Size(55, 400),
-			layoutEngine:"VerticalStackPanel"
-		}
-	);
-	
-	var leftCamButton = new BABYLON.Rectangle2D({ parent: grpCamLeft, id: "leftButton", marginBottom:80, marginLeft: 5, width: 50, height: 50,
-			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
-	
-	
-	var textCamLeft = new BABYLON.Text2D(
-		"L", 
-		{ 
-			parent: leftCamButton, 
-			marginAlignment: "h:center, v:center", 
-			fontName: "12pt Arial", 
-			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
-		}
-	);
-	
-	var downCamButton = new BABYLON.Rectangle2D({ parent: grpCamCenter, id: "downButton", marginBottom:25, marginTop: 50, marginLeft: 5, width: 50, height: 50,
-			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
-	
-	var textCamDown = new BABYLON.Text2D(
-		"D", 
-		{ 
-			parent: downCamButton, 
-			marginAlignment: "h:center, v:center", 
-			fontName: "12pt Arial", 
-			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
-		}
-	);
-	
-	var upCamButton = new BABYLON.Rectangle2D({ parent: grpCamCenter, id: "upButton", marginBottom: 10, marginLeft: 5, width: 50, height: 50,
-			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
-	
-	var textCamUp = new BABYLON.Text2D(
-		"U", 
-		{ 
-			parent: upCamButton, 
-			marginAlignment: "h:center, v:center", 
-			fontName: "12pt Arial", 
-			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
-		}
-	);
-	
-	var rightCamButton = new BABYLON.Rectangle2D({ parent: grpCamRight, id: "rightButton", marginBottom:80, width: 50, height: 50,
-			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
+	var rightCamButton = new BABYLON.Rectangle2D({ parent: grpCamRight, id: "rightButton", marginBottom:sideHeight, width: 55, height: 50,
+			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
 			
 
 	var textCamRight = new BABYLON.Text2D(
-		"R", 
+		"Cam-R", 
 		{ 
 			parent: rightCamButton, 
 			marginAlignment: "h:center, v:center", 
@@ -233,9 +215,7 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	// temp ground
-    //var ground = BABYLON.Mesh.CreateGround("ground1", 300, 300, 1, scene);
-	//ground.position.y = -1;
+
 
 	
 	//observables
@@ -301,7 +281,6 @@ function createButtonControls (scene, camera) {
 		// thing.rotation.x += rotStep;
 		thing.rotate(BABYLON.Axis.X, rotStep, BABYLON.Space.LOCAL);
 	}, BABYLON.PrimitivePointerInfo.PointerUp);
-
 
 
 }
