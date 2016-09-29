@@ -62,11 +62,9 @@
 				}
 			);
 			
-			var rect1 = new BABYLON.Rectangle2D({ parent: g1, id: "rect1", x: 50, y: 50, width: 100, height: 80,
+			var rect1 = new BABYLON.Rectangle2D({ parent: g1, id: "rect1", x: 50, y: 50, width: 80, height: 80,
 					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
-			
-			var rect2 = new BABYLON.Rectangle2D({ parent: g1, id: "rect1", x: 250, y: 50, width: 100, height: 50,
-					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 0)) });
+		
 			
 			var text = new BABYLON.Text2D(
 				"Play", 
@@ -78,10 +76,29 @@
 				}
 			);
 			
+			var rect2 = new BABYLON.Rectangle2D({ parent: g1, id: "rect2", x: 150, y: 50, width: 80, height: 80,
+					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
+					
+			var texture2 = new BABYLON.Texture("icons/stop-icon.png", scene, true, false, BABYLON.Texture.NEAREST_SAMPLINGMODE);
+			
 			var text2 = new BABYLON.Text2D(
-				"Music: Bensound.com", 
+				"Stop", 
 				{ 
 					parent: rect2, 
+					marginAlignment: "h:center, v:center", 
+					fontName: "22pt Arial", 
+					defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+				}
+			);
+			
+			var rect3 = new BABYLON.Rectangle2D({ parent: g1, id: "rect3", x: 300, y: 50, width: 100, height: 50,
+					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 0)) });
+			
+
+			var text3 = new BABYLON.Text2D(
+				"Music: Bensound.com", 
+				{ 
+					parent: rect3, 
 					x: 50,
 					y: -50,
 					marginAlignment: "h:center, v:center", 
@@ -95,10 +112,9 @@
         	//plays and loops music
         	var music = new BABYLON.Sound("Music", "sounds/bensound-retrosoul.mp3", scene, null, { streaming: true, loop: true  });
         	
-        	g1.pointerEventObservable.add(function (d, s) {
+        	/*g1.pointerEventObservable.add(function (d, s) {
 				music.play(0);
-				
-			}, BABYLON.PrimitivePointerInfo.PointerUp);
+			}, BABYLON.PrimitivePointerInfo.PointerUp);*/
 
 
         	
@@ -118,8 +134,8 @@
         
         		var speaker1 = scene.meshes[0];
         		var speaker2 = scene.meshes[1];
-        		speaker1.position.x = -3;
-        		speaker2.position.x = 4;
+        		speaker1.position.x = -4;
+        		speaker2.position.x = 5;
 
 
 				var particleSystem = new BABYLON.ParticleSystem("particles", 500, scene);
@@ -172,10 +188,23 @@
         		        speaker1.scaling = new BABYLON.Vector3(size,size,size);
         		        speaker2.scaling = new BABYLON.Vector3(size,size,size);
         		    }
-        		    					
-					particleSystem.start();
-					particleSystem2.start();
+        		    
+
+					rect1.pointerEventObservable.add(function (d, s) {
+						music.play(0);
+						particleSystem.start();
+						particleSystem2.start();
+					}, BABYLON.PrimitivePointerInfo.PointerUp);
+
+					rect2.pointerEventObservable.add(function (d, s) {
+						music.stop(0);
+						particleSystem.stop();
+						particleSystem2.stop();
+					}, BABYLON.PrimitivePointerInfo.PointerUp);
+
         		});
+        		
+
         		
         	});		
 
