@@ -59,6 +59,13 @@
         	* SETTING THE SCENE
         	*/
 			var scene = new BABYLON.Scene(engine);
+			engine.displayLoadingUI();
+			engine.loadingUIText = "Wait for it..."
+			
+			scene.executeWhenReady(function () {
+				engine.hideLoadingUI();
+			})
+			
 			scene.enablePhysics(new BABYLON.Vector3(0,-9.81, 0), new BABYLON.CannonJSPlugin());
 			
 			var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, new BABYLON.Vector3(0,0,0), scene);
