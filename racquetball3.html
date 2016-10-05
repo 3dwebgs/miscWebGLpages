@@ -57,6 +57,13 @@
         	*/
         	
         	var scene = new BABYLON.Scene(engine);
+		    engine.displayLoadingUI();
+			engine.loadingUIText = "Wait for it..."
+
+			
+			scene.executeWhenReady(function () {
+				engine.hideLoadingUI();
+			})
         	scene.clearColor = new BABYLON.Color3(0.13, 0.11, 0.15);
         	
         	var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, new BABYLON.Vector3(0,100,0), scene);
