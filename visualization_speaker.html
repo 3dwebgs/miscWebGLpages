@@ -3,12 +3,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        <title>Racquetball Sim</title>
+        <title>Speaker Visualization</title>
         <!-- Babylon.js -->
-        <script src="http://www.babylonjs.com/hand.minified-1.2.js"></script>
-        <script src="http://www.babylonjs.com/cannon.js"></script>
+        <script src="js/hand.minified-1.2.js"></script>
+        <script src="js/cannon.js"></script>
+        <script src="js/oimo.js"></script>
         <script src="js/babylon.2.4.js"></script>
-
         <style>
             html, body {
                 overflow: hidden;
@@ -26,268 +26,207 @@
         </style>
     </head>
 <body>
-	
     <canvas id="renderCanvas"></canvas>
     <script>
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
-       	
-       	var scene, guisystem, ball;
-       	
-        /*
-
-			
-			function serve (){
-				ball.position = new BABYLON.Vector3(20, 30, 100);
-				
-				ball.physicsImpostor.physicsBody.velocity.x = 0;
-				ball.physicsImpostor.physicsBody.velocity.y = 0;
-				ball.physicsImpostor.physicsBody.velocity.z = 0;
-
-				ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(Math.random()*50-5, Math.random()*50-5, -120), ball.getAbsolutePosition());
-			}
-		*/
         
-        
-      
+				//text: "Music: Bensound.com",
+
+
         var createScene = function () {
         
-        	/*
-        	* ROOM SETUP
-        	*/
-        	
-        	var scene = new BABYLON.Scene(engine);
-        	engine.displayLoadingUI();
+            var scene = new BABYLON.Scene(engine);
+            engine.displayLoadingUI();
 			engine.loadingUIText = "Wait for it..."
-
 			
 			scene.executeWhenReady(function () {
 				engine.hideLoadingUI();
 			})
-        	
-        	
-        	scene.clearColor = new BABYLON.Color3(0.13, 0.11, 0.15);
-        	
-        	var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, new BABYLON.Vector3(0,100,0), scene);
-        	camera.setPosition(new BABYLON.Vector3(0, 100, 390));
-        	//camera.attachControl(canvas, true);
-        	
-        	
-        	/*
-        	*canvas2d GUI - serve button
-        	*/
-        	
-        	var canvas2 = new BABYLON.ScreenSpaceCanvas2D(
+			
+            //scene.debugLayer.show();
+        
+			var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 0, 0, 0, BABYLON.Vector3.Zero(), scene);
+			camera.setPosition(new BABYLON.Vector3(-1, 5, -20));
+			camera.attachControl(canvas, true);
+			
+			var canvas2 = new BABYLON.ScreenSpaceCanvas2D(
 				scene, 
 				{ 
 					id: "ScreenCanvas", 
-					//size: new BABYLON.Size(600, 400), 
+					size: new BABYLON.Size(600, 400), 
 					cachingStrategy: BABYLON.Canvas2D.CACHESTRATEGY_DONTCACHE, 
 				}
 			);
-			canvas2.setHorizontal = "center";
 			
+			var g1 = new BABYLON.Group2D(
+				{ 
+					parent: canvas2, 
+					id: "g1", 
+					position: new BABYLON.Vector2(0, 0), 
+					origin: new BABYLON.Vector2(0.5, 0.5), 
+					size: new BABYLON.Size(600, 600) 
+				}
+			);
 			
-			var rect1 = new BABYLON.Rectangle2D({ parent: canvas2, id: "rect1", x: 30, y: 30, width: 100, height: 80,
-					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 0.6)), roundRadius: 10 });
-			
+			var rect1 = new BABYLON.Rectangle2D({ parent: g1, id: "rect1", x: 50, y: 50, width: 80, height: 80,
+					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
+		
 			
 			var text = new BABYLON.Text2D(
-				"SERVE", 
+				"Play", 
 				{ 
 					parent: rect1, 
 					marginAlignment: "h:center, v:center", 
-					fontName: "16pt Arial", 
+					fontName: "22pt Arial", 
 					defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
 				}
 			);
 			
-			function serve (){
-				ball.position = new BABYLON.Vector3(20, 30, 100);
+			var rect2 = new BABYLON.Rectangle2D({ parent: g1, id: "rect2", x: 150, y: 50, width: 80, height: 80,
+					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 1)), roundRadius: 10 });
+					
+			var texture2 = new BABYLON.Texture("icons/stop-icon.png", scene, true, false, BABYLON.Texture.NEAREST_SAMPLINGMODE);
+			
+			var text2 = new BABYLON.Text2D(
+				"Stop", 
+				{ 
+					parent: rect2, 
+					marginAlignment: "h:center, v:center", 
+					fontName: "22pt Arial", 
+					defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+				}
+			);
+			
+			var rect3 = new BABYLON.Rectangle2D({ parent: g1, id: "rect3", x: 300, y: 50, width: 100, height: 50,
+					fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, 0)) });
+			
+
+			var text3 = new BABYLON.Text2D(
+				"Music: Bensound.com", 
+				{ 
+					parent: rect3, 
+					x: 50,
+					y: -50,
+					marginAlignment: "h:center, v:center", 
+					fontName: "10pt Arial", 
+					defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+				}
+			);
+
+
+        	
+        	//plays and loops music
+        	var music = new BABYLON.Sound("Music", "sounds/bensound-retrosoul.mp3", scene, null, { streaming: true, loop: true  });
+        	
+        	/*g1.pointerEventObservable.add(function (d, s) {
+				music.play(0);
+			}, BABYLON.PrimitivePointerInfo.PointerUp);*/
+
+
+        	
+        	//sets up analyzer
+        	var myAnalyser = new BABYLON.Analyser(scene);
+        	BABYLON.Engine.audioEngine.connectToAnalyser(myAnalyser);
+         	myAnalyser.FFT_SIZE = 512;
+        	myAnalyser.SMOOTHING = 0.9;
+        	
+        	//import of .babylon file from Blender
+        	//changes to mesh must be put within callback
+        	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "custom-speakers5.babylon", scene, function(meshes){
 				
-				ball.physicsImpostor.physicsBody.velocity.x = 0;
-				ball.physicsImpostor.physicsBody.velocity.y = 0;
-				ball.physicsImpostor.physicsBody.velocity.z = 0;
+				var light2 = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(1, 10, 1), scene);
+				light2.specular = new BABYLON.Color3(1, 1, 1);
+				light2.intensity = 2;
+        
+        		var speaker1 = scene.meshes[0];
+        		var speaker2 = scene.meshes[1];
+        		speaker1.position.x = -4;
+        		speaker2.position.x = 5;
 
-				ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(Math.random()*50-5, Math.random()*50-5, -120), ball.getAbsolutePosition());
-			}
-			
-			
-			rect1.pointerEventObservable.add(serve, BABYLON.PrimitivePointerInfo.PointerUp);
-			
-        
-        	var light0 = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, 1, 0), scene);
-        	light0.diffuse = new BABYLON.Color3(1, 1, 1);
-        	light0.specular = new BABYLON.Color3(1, 1, 1);
-        	light0.groundColor = new BABYLON.Color3(.4, .4, .4);
-        	light0.intensity = 0.9;
-        	
-        	var pi = Math.PI; //for rotation
-        	
-        	var ground = BABYLON.MeshBuilder.CreateBox("ground", {width: 400, height: 2, depth: 400}, scene);
-        	var groundMaterial = new BABYLON.StandardMaterial("wallMat", scene);
-        	groundMaterial.diffuseColor = new BABYLON.Color3(0.820, 0.753, 0.467);
-        	groundMaterial.specularColor = BABYLON.Color3.Black();
-        	ground.material = groundMaterial;
-        	ground.scaling.x = 0.5;
-        	ground.scaling = new BABYLON.Vector3(0.5, 0.005, 1);
-        	
-        	var backWall = BABYLON.MeshBuilder.CreateBox("backwall", {width: 200, height: 200, depth: 2}, scene);
-        	var backWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
-        	backWallMaterial.diffuseColor = new BABYLON.Color3(1, 1, 1);
-        	backWallMaterial.specularColor = BABYLON.Color3.Black();
-        	backWall.material = backWallMaterial;
-        	backWall.position.y = 100;
-        	backWall.position.z = -200;
-        	backWall.rotation = new BABYLON.Vector3(0, Math.PI, 0);
-        	
-        	var frontWall = BABYLON.MeshBuilder.CreateBox("frontwall", {width: 200, height: 200, depth: 2}, scene); 
-        	var frontWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
-        	frontWallMaterial.alpha = 0;
-        	frontWall.material = frontWallMaterial;
-        	frontWall.scaling.z = 0.01;
-        	frontWall.position.y = 100;
-        	frontWall.position.z = 200;
-        
-        	var sideWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
-        	sideWallMaterial.diffuseColor = new BABYLON.Color3(0.900, 0.900, 0.900);
-        	sideWallMaterial.specularColor = BABYLON.Color3.Black();
-        
-        	var leftWall = BABYLON.MeshBuilder.CreateBox("leftwall", {width:400,height:200, depth:2}, scene);
-        	leftWall.material = sideWallMaterial;
-        	leftWall.position = new BABYLON.Vector3(100, 100, 0);
-        	leftWall.rotation = new BABYLON.Vector3(0, pi/2, 0);
-        
-        	var rightWall =  BABYLON.MeshBuilder.CreateBox("rightwall", {width: 400, height: 200, depth: 2}, scene);
-        	rightWall.material = sideWallMaterial;
-        	rightWall.position = new BABYLON.Vector3(-100, 100, 0);
-        	rightWall.rotation = new BABYLON.Vector3(0, pi/2, 0);
-        
-        	var ceiling = BABYLON.MeshBuilder.CreateBox("ceiling", {width:200, height:400, depth:2}, scene);
-        	ceiling.material = sideWallMaterial;
-        	ceiling.position = new BABYLON.Vector3(0, 200, 0);
-        	ceiling.rotation.x = pi/2;
-        	
-        	ball = BABYLON.MeshBuilder.CreateSphere("ball", {segments: 15, diameter: 10}, scene);
-        	var redMat = new BABYLON.StandardMaterial("ballMaterial", scene);
-        	redMat.diffuseColor = new BABYLON.Color3(0.4, 0.4, 0.4);
-        	redMat.specularColor = new BABYLON.Color3(0.4, 0.4, 0.4);
-        	redMat.emissiveColor = BABYLON.Color3.Red();
-        	ball.material = redMat;
-        	ball.position = new BABYLON.Vector3(50, 30, 100);
-        	
-        	var racquet = BABYLON.Mesh.CreatePlane("racquet", 50, scene);
-        	var racquetMat = new BABYLON.StandardMaterial("racquetMat", scene);
-        	racquetMat.diffuseColor = new BABYLON.Color3(0.28,1.43,1.43);
-        	racquetMat.alpha = 0.3;
-        	racquet.material = racquetMat;
-        	racquet.position.z = 130; 
-        	racquet.position.y = 75; 
-        	racquet.rotation = new BABYLON.Vector3(0, Math.PI, 0);
-        	
-        	/*
-        	* PHYSICS
-        	*/
-        	
-        	scene.enablePhysics(new BABYLON.Vector3(0,0, 0), new BABYLON.CannonJSPlugin());
-        	
-        	ground.physicsImpostor = new BABYLON.PhysicsImpostor(
-        		ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
-        		
-        	backWall.physicsImpostor = new BABYLON.PhysicsImpostor(
-        		backWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);			
-        
-        	leftWall.physicsImpostor = new BABYLON.PhysicsImpostor(
-        		leftWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
-        	
-        	rightWall.physicsImpostor = new BABYLON.PhysicsImpostor(
-        		rightWall, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
-        	
-        	ceiling.physicsImpostor = new BABYLON.PhysicsImpostor(
-        		ceiling, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
-        	
-        	racquet.physicsImpostor = new BABYLON.PhysicsImpostor(
-        		racquet, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1, friction: 0 }, scene);
-        	
-        	ball.physicsImpostor = new BABYLON.PhysicsImpostor(
-        		ball, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.5, restitution: 1, friction: 0 }, scene);
-        		
-        	//ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(50, 60, -120), ball.getAbsolutePosition());
-        	 
-        	 
-        	 
-        	/*
-        	* EVENT LISTENERS FOR RACQUET CONTROL
-        	*/ 
-        	
-        	var currentMesh;
-        	var startingPoint;
-        
-        
-        	var getGroundPosition = function () {
-        		var pickinfo = scene.pick(scene.pointerX, scene.pointerY, function(mesh){ return mesh == frontWall;});
-        		if (pickinfo.hit) {
-        			return pickinfo.pickedPoint;
-        		}
-        
-        		return null;
-        	}
-        
-        	var onPointerDown = function (evt) {
-        		if (evt.button !== 0) {
-        			return;
-        		}
-        
-        		var pickInfo = scene.pick(scene.pointerX, scene.pointerY, function (mesh) { return mesh !== frontWall && mesh == racquet;});
-        		if (pickInfo.hit) {
-        			currentMesh = pickInfo.pickedMesh;
-        			startingPoint = getGroundPosition();
-        
-        		}
-        	}
-        
-        	var onPointerUp = function () {
-        		if (startingPoint) {
-        			startingPoint = null;
-        			return;
-        		}
-        	}
-        
-        	var onPointerMove = function () {
-        		if (!startingPoint) {
-        			return;
-        		}
-        
-        		var current = getGroundPosition();
-        
-        		if (!current) {
-        			return;
-        		}
-        
-        		var diffX = current.x - startingPoint.x;
-        		var diffY = current.y - startingPoint.y;
-        		currentMesh.position.x += diffX;
-        		currentMesh.position.y += diffY;
-        		
-        		startingPoint = current;
-        
-        	}
-        	
 
-			canvas.addEventListener("pointerdown", onPointerDown, false);
-			canvas.addEventListener("pointerup", onPointerUp, false);
-			canvas.addEventListener("pointermove", onPointerMove, false);
-			
+				var particleSystem = new BABYLON.ParticleSystem("particles", 500, scene);
+				particleSystem.particleTexture = new BABYLON.Texture("textures/musical_note.jpg", scene);
+				particleSystem.emitter = speaker1;
+				particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
+				particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
+				particleSystem.minEmitBox = new BABYLON.Vector3(-2, -6, -2); // Starting all From
+				particleSystem.maxEmitBox = new BABYLON.Vector3(2, 3, -2); // To...
+				particleSystem.minSize = 0.1;
+				particleSystem.maxSize = 0.5;
+				particleSystem.minLifeTime = 1.0;
+				particleSystem.maxLifeTime = 5.0;
+				particleSystem.emitRate = 100;
+				particleSystem.direction1 = new BABYLON.Vector3(5, 3, -8);
+				particleSystem.direction2 = new BABYLON.Vector3(-5, -3, -8);
+				particleSystem.minAngularSpeed = 0;
+				particleSystem.maxAngularSpeed = Math.PI;
+				particleSystem.maxEmitPower = 1;
+				particleSystem.updateSpeed = 0.005;
 
-        	return scene;
+				
+				var particleSystem2 = new BABYLON.ParticleSystem("particles", 500, scene);
+				particleSystem2.particleTexture = new BABYLON.Texture("textures/musical_note.jpg", scene);
+				particleSystem2.emitter = speaker2;
+				particleSystem2.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
+				particleSystem2.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
+				particleSystem2.minEmitBox = new BABYLON.Vector3(-2, -6, 2); // Starting all From
+				particleSystem2.maxEmitBox = new BABYLON.Vector3(2, 1, 2); // To...
+				particleSystem2.minSize = 0.1;
+				particleSystem2.maxSize = 0.5;
+				particleSystem2.minLifeTime = 1.0;
+				particleSystem2.maxLifeTime = 5.0;
+				particleSystem2.emitRate = 100;
+				particleSystem2.direction1 = new BABYLON.Vector3(5, 3, -8);
+				particleSystem2.direction2 = new BABYLON.Vector3(-5, -3, -8);
+				particleSystem2.minAngularSpeed = 0;
+				particleSystem2.maxAngularSpeed = Math.PI;
+				particleSystem2.maxEmitPower = 2;
+				particleSystem2.updateSpeed = 0.005;
+        		
+        		scene.registerBeforeRender(function () {
+					//creates array, copies frequency data into the passed unsigned byte array 
+					//var workingArrayFreq = myAnalyser.getByteFrequencyData();
+        			var workingArrayTime = myAnalyser.getByteTimeDomainData();
+        		
+        			//loop scales mesh with each value
+        		    for (var i = 0; i < myAnalyser.getFrequencyBinCount(); i++) {  //frequency bin count is 1/2 of FFT_SIZE
+        				var size = workingArrayTime[i] / 256;
+        		        speaker1.scaling = new BABYLON.Vector3(size,size,size);
+        		        speaker2.scaling = new BABYLON.Vector3(size,size,size);
+        		    }
+        		    
+
+					rect1.pointerEventObservable.add(function (d, s) {
+						music.play(0);
+						particleSystem.start();
+						particleSystem2.start();
+					}, BABYLON.PrimitivePointerInfo.PointerUp);
+
+					rect2.pointerEventObservable.add(function (d, s) {
+						music.stop(0);
+						particleSystem.stop();
+						particleSystem2.stop();
+					}, BABYLON.PrimitivePointerInfo.PointerUp);
+
+        		});
+        		
+
+        		
+        	});		
+
+ 	
+            return scene;
+        
         };
+		//http://www.babylonjs-playground.com/#UGCZT	
+		//http://www.babylonjs-playground.com/#DN9SY#0
         
         var scene = createScene();
 
         engine.runRenderLoop(function () {
             scene.render();
         });
-
 
         // Resize
         window.addEventListener("resize", function () {
