@@ -107,7 +107,7 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	var downCamButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "downButton", marginTop: 10, width: 50, height: 50,
+	var downCamButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "downButton", marginTop: 5, width: 50, height: 50,
 		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
 	
 	var textCamDown = new BABYLON.Text2D(
@@ -120,7 +120,7 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	var downButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "downButton", marginTop: 5, width: 50, height: 50,
+	var downButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "downButton", marginBottom:5, width: 50, height: 50,
 			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
 	
 	var textDown = new BABYLON.Text2D(
@@ -133,7 +133,7 @@ function createButtonControls (scene, camera) {
 		}
 	);
 		
-	var backButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "backButton", marginTop: 5, width: 50, height: 50,
+	var backButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "backButton", margin:1, width: 50, height: 50,
 			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
 	
 	var textBack = new BABYLON.Text2D(
@@ -146,7 +146,7 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	var forwardButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "forwardButton",  marginTop: 5, width: 50, height: 50,
+	var forwardButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "forwardButton",  margin:1, width: 50, height: 50,
 		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
 	
 	var textForward = new BABYLON.Text2D(
