@@ -38,8 +38,15 @@
  
 
 		function createScene() {
+
 			var scene = new BABYLON.Scene(engine);
+			engine.displayLoadingUI();
+			engine.loadingUIText = "Wait for it..."
 			scene.clearColor = new BABYLON.Color3(0, 0, 0);
+			
+			scene.executeWhenReady(function () {
+				engine.hideLoadingUI();
+			})
 			//scene.debugLayer.show();
 
 			var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
@@ -57,7 +64,7 @@
 				GUI = null;
 				GUI = createButtonControls(scene, freeCamera);
 
-        }); */
+        });*/
 			
 
 			function posOrNeg(){ return Math.random() < 0.5 ? -1 : 1;}
@@ -115,8 +122,11 @@
 				);
 			}
 			
+			//fire texture  http://www.babylonjs-playground.com/#KM3TC#15
 
-
+			setTimeout(function () {
+				engine.hideLoadingUI();
+			}, 16);
 
 			return scene;
 		};
