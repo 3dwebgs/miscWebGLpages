@@ -11,3 +11,11 @@ index.html
 License
 ========
 Open. Entirely open.
+
+
+
+current babylon playgrounds:
+
+https://www.babylonjs-playground.com/#1IB3JT#10 turn into solo racquetball
+
+https://www.babylonjs-playground.com/#1IB3JT#11 added transparent racquet
