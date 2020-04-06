@@ -19,3 +19,6 @@ current babylon playgrounds:
 https://www.babylonjs-playground.com/#1IB3JT#10 turn into solo racquetball
 
 https://www.babylonjs-playground.com/#1IB3JT#11 added transparent racquet
+
+speaker visualization redo
+https://www.babylonjs-playground.com/#6RQ35N
