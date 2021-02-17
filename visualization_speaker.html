@@ -107,9 +107,10 @@
                 	//changes to mesh must be put within callback
                 	BABYLON.SceneLoader.ImportMesh("", "blender-scenes/", "custom-speakers5.babylon", scene, function(meshes){
         
-        				var light2 = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(1, 10, 1), scene);
-        				light2.specular = new BABYLON.Color3(1, 1, 1);
-        				light2.intensity = 2;
+                        var light = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(0, 0, 1), scene);
+                        light.diffuse = new BABYLON.Color3(.1, .4, .8);
+                        light.specular = new BABYLON.Color3(0, 1, 0);
+                        light.intensity = 1;
                 
                 		var speaker1 = scene.meshes[0];
                 		var speaker2 = scene.meshes[1];
@@ -175,7 +176,7 @@
                 	});		
                 
                 	//scene.debugLayer.show(); 
-                //https://www.babylonjs-playground.com/#DN9SY#3
+                //https://www.babylonjs-playground.com/#DN9SY#4
                 	
                     return scene;
                 
