@@ -59,7 +59,7 @@
             var skybox = BABYLON.MeshBuilder.CreateBox("SkyBox", {size:1000.0}, scene);
             var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
             skyboxMaterial.backFaceCulling = false;
-            skyboxMaterial.reflectionTexture = new BABYLON.HDRCubeTexture("textures/room.hdr", scene, 512);
+            skyboxMaterial.reflectionTexture = new BABYLON.HDRCubeTexture("textures/desert1.hdr", scene, 512);
             skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
             skybox.material = skyboxMaterial;
             
