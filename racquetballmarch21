@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+
+        <!-- Babylon.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/ammo.js"></script>
+        <script src="https://preview.babylonjs.com/cannon.js"></script>
+        <script src="https://preview.babylonjs.com/Oimo.js"></script>
+        <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+        <script src="https://preview.babylonjs.com/babylon.js"></script>
+        <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+        <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+        <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+    </head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+
+        var engine = null;
+        var scene = null;
+        var sceneToRender = null;
+        var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
+        var createScene = function () {
+        
+        
+            /*
+            * ROOM SETUP
+            */
+            
+            const scene = new BABYLON.Scene(engine);
+            scene.clearColor = new BABYLON.Color3(0.13, 0.11, 0.15);
+            
+            const camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, new BABYLON.Vector3(0,100,0), scene);
+            camera.setPosition(new BABYLON.Vector3(0, 100, 450));
+            // camera.attachControl(canvas, true);
+        
+        
+        
+            /*
+            * LIGHTING
+            */
+        
+            const light0 = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, 1, 0), scene);
+            light0.diffuse = new BABYLON.Color3(1, 1, 1);
+            light0.specular = new BABYLON.Color3(1, 1, 1);
+            light0.groundColor = new BABYLON.Color3(.4, .4, .4);
+            light0.intensity = 0.9;
+        
+            const pointLight = new BABYLON.PointLight("pointlight", new BABYLON.Vector3(0, 300, 800), scene);
+            pointLight.intensity = 0.1;
+        
+            const redLight = new BABYLON.SpotLight("redLight", new BABYLON.Vector3(112, 230, 210), new BABYLON.Vector3(0,-1,0), Math.PI / 2, 10, scene);
+            redLight.specular = new BABYLON.Color3(1,0,0);
+            redLight.diffuse = new BABYLON.Color3(1,0,0);
+        
+            const greenLight = new BABYLON.SpotLight("redLight", new BABYLON.Vector3(-112, 230, 210), new BABYLON.Vector3(0,-1,0), Math.PI / 2, 10, scene);
+            greenLight.specular = new BABYLON.Color3(0,1,0);
+            greenLight.diffuse = new BABYLON.Color3(0,1,0);
+            
+            const pi = Math.PI; //for rotation
+        			
+            const floorMaterial = new BABYLON.StandardMaterial("floorMat", scene);
+            floorMaterial.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/3dwebgs/miscWebGLpages/e89b5a1ac3ad1c187e3061bff306864d3bccbfd4/textures/Dirty-Concrete-6-TEX.jpg",scene);
+            floorMaterial.bumpTexture = new BABYLON.Texture("https://rawcdn.githack.com/3dwebgs/miscWebGLpages/b0605954659acc8f035f5db8c15b4fd3c4d10565/textures/Dirty-Concrete-8-normal.jpg", scene);
+            floorMaterial.bumpTexture.uScale = 15;
+            floorMaterial.bumpTexture.vScale = 10;
+            floorMaterial.diffuseTexture.uScale =1;
+            floorMaterial.diffuseTexture.vScale = 2;
+            floorMaterial.diffuseTexture.uOffset = .2;
+            floorMaterial.diffuseTexture.vOffset = .6;
+        
+            const leftWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
+            leftWallMaterial.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/3dwebgs/miscWebGLpages/e89b5a1ac3ad1c187e3061bff306864d3bccbfd4/textures/Dirty-Concrete-6-TEX.jpg",scene);
+            leftWallMaterial.bumpTexture = new BABYLON.Texture("https://rawcdn.githack.com/3dwebgs/miscWebGLpages/b0605954659acc8f035f5db8c15b4fd3c4d10565/textures/Dirty-Concrete-8-normal.jpg", scene);
+            leftWallMaterial.bumpTexture.uScale = 40;
+            leftWallMaterial.bumpTexture.vScale = 20;
+            leftWallMaterial.diffuseTexture.uScale =2;
+            leftWallMaterial.diffuseTexture.vScale = 1;
+            leftWallMaterial.diffuseTexture.vOffset = .2;
+        
+            const rightWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
+            rightWallMaterial.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/3dwebgs/miscWebGLpages/e89b5a1ac3ad1c187e3061bff306864d3bccbfd4/textures/Dirty-Concrete-6-TEX.jpg",scene);
+            rightWallMaterial.bumpTexture = new BABYLON.Texture("https://rawcdn.githack.com/3dwebgs/miscWebGLpages/b0605954659acc8f035f5db8c15b4fd3c4d10565/textures/Dirty-Concrete-8-normal.jpg", scene);
+            rightWallMaterial.bumpTexture.uScale = 40;
+            rightWallMaterial.bumpTexture.vScale = 20;
+            rightWallMaterial.diffuseTexture.uScale =2;
+            rightWallMaterial.diffuseTexture.vScale = 1;
+            rightWallMaterial.diffuseTexture.uOffset = .2;
+            rightWallMaterial.diffuseTexture.vOffset = .6;
+        
+            const backWallMaterial = new BABYLON.StandardMaterial("backWallMat", scene);
+            backWallMaterial.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/3dwebgs/miscWebGLpages/e89b5a1ac3ad1c187e3061bff306864d3bccbfd4/textures/Dirty-Concrete-6-TEX.jpg",scene);
+            backWallMaterial.diffuseTexture.uScale = 1;
+            backWallMaterial.diffuseTexture.vScale = 1;
+            backWallMaterial.diffuseTexture.uOffset = 0.9;
+        
+            const ceilingMaterial = new BABYLON.StandardMaterial("ceilingMat", scene);
+            ceilingMaterial.diffuseTexture = new BABYLON.Texture("https://rawcdn.githack.com/3dwebgs/miscWebGLpages/e89b5a1ac3ad1c187e3061bff306864d3bccbfd4/textures/Dirty-Concrete-6-TEX.jpg",scene);
+            ceilingMaterial.bumpTexture = new BABYLON.Texture("https://rawcdn.githack.com/3dwebgs/miscWebGLpages/b0605954659acc8f035f5db8c15b4fd3c4d10565/textures/Dirty-Concrete-8-normal.jpg", scene);
+            ceilingMaterial.bumpTexture.uScale = 40;
+            ceilingMaterial.bumpTexture.vScale = 20;
+            ceilingMaterial.diffuseTexture.uScale = 1;
+            ceilingMaterial.diffuseTexture.vScale = 2;
+            ceilingMaterial.diffuseTexture.uOffset = 0.8;
+        
+            const floorBox = BABYLON.MeshBuilder.CreateBox("ceilingBox", {width: 200, height: 400, depth: 50}, scene);
+            floorBox.material = floorMaterial;
+            floorBox.position = new BABYLON.Vector3(0, -25, 0);
+            floorBox.rotation.x = pi/2;
+            
+            const backWallBox = BABYLON.MeshBuilder.CreateBox("backWallBox", {width:300, height:300, depth: 50},scene);
+            backWallBox.material = backWallMaterial;
+            backWallBox.position.y = 100;
+            backWallBox.position.z = -225;
+            backWallBox.rotation = new BABYLON.Vector3(0, Math.PI, 0);
+            
+            const frontWallMaterial = new BABYLON.StandardMaterial("wallMat", scene);
+            const frontWallBox = BABYLON.MeshBuilder.CreateBox("frontWallBox", {width:300, height:300, depth: 50},scene);
+            frontWallBox.material = frontWallMaterial;
+            frontWallBox.isVisible = false;
+            frontWallBox.position.y = 100;
+            frontWallBox.position.z = 225;
+            frontWallBox.rotation = new BABYLON.Vector3(0, Math.PI, 0);
+        
+            const leftWallBox = BABYLON.MeshBuilder.CreateBox("leftWallBox", {width: 400, height: 300, depth: 50}, scene);
+            leftWallBox.material = leftWallMaterial;
+            leftWallBox.position = new BABYLON.Vector3(125, 100, 0);
+            leftWallBox.rotation = new BABYLON.Vector3(0, pi/2, 0);
+        
+            const rightWallBox = BABYLON.MeshBuilder.CreateBox("rightWallBox", {width: 400, height: 300, depth: 50}, scene);
+            rightWallBox.material = rightWallMaterial;
+            rightWallBox.position = new BABYLON.Vector3(-125, 100, 0);
+            rightWallBox.rotation = new BABYLON.Vector3(0, pi/2, 0);
+        
+            const ceilingBox = BABYLON.MeshBuilder.CreateBox("ceilingWallBox", {width: 200, height: 400, depth: 50}, scene);
+            ceilingBox.material = ceilingMaterial;
+            ceilingBox.position = new BABYLON.Vector3(0, 225, 0);
+            ceilingBox.rotation.x = pi/2;
+        			
+            const ball = BABYLON.Mesh.CreateSphere("ball", 16, 10, scene);
+            const redMat = new BABYLON.StandardMaterial("ballMaterial", scene);
+            redMat.diffuseColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+            redMat.specularColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+            redMat.emissiveColor = BABYLON.Color3.Red();
+            ball.material = redMat;
+            ball.position = new BABYLON.Vector3(0,5,0);
+            
+            /*Racquet*/
+        
+            const racquetMat = new BABYLON.StandardMaterial("racquetMat", scene);
+            racquetMat.diffuseColor = new BABYLON.Color3(0.28,1.43,1.43);
+            racquetMat.alpha = 0.3;
+        
+            const racquetBox = BABYLON.MeshBuilder.CreateBox("racquetBox", {width: 70, height: 70, depth: 15}, scene);
+            racquetBox.material = racquetMat;
+            racquetBox.material = racquetMat;
+            racquetBox.position.z = 190; 
+            racquetBox.position.y = 95; 
+            racquetBox.rotation = new BABYLON.Vector3(0, Math.PI, 0);
+                            	
+            /*
+            * GUI
+            */
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+        
+            const panel = new BABYLON.GUI.StackPanel();
+            panel.width = "200px";
+            panel.height = "200px";
+            panel.isVertical = true;
+            panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+            panel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+            advancedTexture.addControl(panel);
+        
+            const serveButton = BABYLON.GUI.Button.CreateSimpleButton("servebut", "Serve");
+            serveButton.width = "90px";
+            serveButton.height = "60px";
+            serveButton.color = "white";
+            serveButton.paddingBottomInPixels = 20;
+            serveButton.cornerRadius = 20;
+            serveButton.background = "green";
+            serveButton.onPointerUpObservable.add(function() {
+                ball.position = new BABYLON.Vector3(0,5,0);
+                ball.physicsImpostor.applyImpulse(new BABYLON.Vector3(30, 30, -180), ball.getAbsolutePosition());
+            });
+            panel.addControl(serveButton);
+        
+            const header = new BABYLON.GUI.TextBlock();
+            header.text = "Easy";
+            header.width = "150px";
+            header.height = "30px";
+            header.paddingBottomInPixels = 10;
+            header.color = "white";
+            panel.addControl(header); 
+        
+            //racquet size click option
+        	const checkbox = new BABYLON.GUI.Checkbox();
+            checkbox.isChecked = true;
+            checkbox.width = "60px";
+            checkbox.height = "60px";
+            checkbox.color = "green";
+            checkbox.background = "green";
+            panel.addControl(checkbox);
+        
+        
+        
+        
+        			
+            /*
+            * PHYSICS
+            */
+        
+            
+            scene.enablePhysics(new BABYLON.Vector3(0, -5, 0), new BABYLON.CannonJSPlugin(undefined, 100));
+            
+            floorBox.physicsImpostor = new BABYLON.PhysicsImpostor(
+                floorBox, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1.01, friction: 0 }, scene);
+                
+            backWallBox.physicsImpostor = new BABYLON.PhysicsImpostor(
+                backWallBox, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1.01, friction: 0  }, scene);
+                            
+            frontWallBox.physicsImpostor = new BABYLON.PhysicsImpostor(
+            	frontWallBox, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1.01, friction: 0  }, scene);
+            
+            leftWallBox.physicsImpostor = new BABYLON.PhysicsImpostor(
+                leftWallBox, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1.01, friction: 0  }, scene);
+            
+            rightWallBox.physicsImpostor = new BABYLON.PhysicsImpostor(
+                rightWallBox, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1.01, friction: 0  }, scene);
+            
+            ceilingBox.physicsImpostor = new BABYLON.PhysicsImpostor(
+                ceilingBox, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1.01, friction: 0  }, scene);
+            
+            racquetBox.physicsImpostor = new BABYLON.PhysicsImpostor(
+                racquetBox, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 1.01, friction: 0  }, scene);
+            
+            ball.physicsImpostor = new BABYLON.PhysicsImpostor(
+                ball, BABYLON.PhysicsImpostor.SphereImpostor, { mass: .5, restitution: 1, friction: 0  }, scene);
+        
+            //resets position of ball once it hits invisible front wall
+            ball.physicsImpostor.registerOnPhysicsCollide(frontWallBox.physicsImpostor, function (main, collided) {
+                ball.position= new BABYLON.Vector3(0,20,20);
+                ball.physicsImpostor.forceUpdate();
+            });
+        
+        
+            //checkbox difficulty toggle
+            let adjustableRestitution;
+            checkbox.onIsCheckedChangedObservable.add(function() {
+                if (checkbox.isChecked) {
+                    checkbox.width = "60px";
+                    checkbox.height = "60px";
+                    checkbox.color = "green";
+                    header.text = "Slow";
+                    racquetBox.scaling.x = 1;
+                    racquetBox.scaling.y = 1;
+                    backWallBox.physicsImpostor.restitution = 1.01;
+                    racquetBox.physicsImpostor.restitution = 1.01;
+                    rightWallBox.physicsImpostor.restitution = 1.01;
+                    leftWallBox.physicsImpostor.restitution = 1.01;
+                    ceilingBox.physicsImpostor.restitution = 1.01;
+                    ball.physicsImpostor.registerOnPhysicsCollide(racquetBox.physicsImpostor, function () {
+                        var vel = ball.physicsImpostor.getLinearVelocity();
+                        ball.physicsImpostor.setLinearVelocity(vel.scale(1.02));
+                    });
+                } else {
+                    checkbox.width = "40px";
+                    checkbox.height = "40px";
+                    checkbox.color = "red";
+                    header.text = "Wait for it...";
+                    racquetBox.scaling.x = 0.6;
+                    racquetBox.scaling.y= 0.6;
+                    adjustableRestitution = 1.04;
+                    backWallBox.physicsImpostor.restitution = 1.06;
+                    racquetBox.physicsImpostor.restitution = 1.06;
+                    rightWallBox.physicsImpostor.restitution = 1.06;
+                    leftWallBox.physicsImpostor.restitution = 1.06;
+                    ceilingBox.physicsImpostor.restitution = 1.06;
+                    ball.physicsImpostor.registerOnPhysicsCollide(racquetBox.physicsImpostor, function () {
+                        var vel = ball.physicsImpostor.getLinearVelocity();
+                        ball.physicsImpostor.setLinearVelocity(vel.scale(1.05));
+                    });
+                }
+            });
+        			 
+            /*
+            * EVENT LISTENERS FOR RACQUET CONTROL
+            */ 
+            
+            let startingPoint; //mutable value for racquet position
+        
+            //gets current pointer position, limiting to frontWall
+            const getGroundPosition = function () {
+                let pickinfo = scene.pick(scene.pointerX, scene.pointerY, function(mesh){ return mesh == frontWallBox;});
+                if (pickinfo.hit) {
+                    return pickinfo.pickedPoint;
+                }
+                return null;
+            }
+        
+            //sets startingPoint value to pointer position
+            const onPointerDown = function () {
+                let pickInfo = scene.pick(scene.pointerX, scene.pointerY, function (mesh) { return mesh === racquetBox;});
+                if (pickInfo.hit) {
+                    startingPoint = getGroundPosition();
+                }
+            }
+        
+            //nulls startingPoint so racquet won't move when pointer up
+            const onPointerUp = function () {
+                if (startingPoint) {
+                    startingPoint = null;
+                    return;
+                }
+            }
+        
+            //sets racquet position to follow pointer
+            const onPointerMove = function () {
+                if (!startingPoint) {
+                    return;
+                }
+                let current = getGroundPosition();
+                if (!current) {
+                    return;
+                }
+                let diff = current.subtract(startingPoint);
+                racquetBox.position.addInPlace(diff);
+                startingPoint = current;
+            }
+            
+        
+            scene.onPointerObservable.add((pointerInfo) => {      		
+                switch (pointerInfo.type) {
+        			case BABYLON.PointerEventTypes.POINTERDOWN:
+        				if(pointerInfo.pickInfo.hit) {
+                            onPointerDown();
+                        }
+        				break;
+        			case BABYLON.PointerEventTypes.POINTERUP:
+                            onPointerUp();
+        				break;
+        			case BABYLON.PointerEventTypes.POINTERMOVE:          
+                            onPointerMove();
+        				break;
+                }
+            });
+        
+        
+            
+            return scene;
+        
+        };
+                var engine;
+                var scene;
+                initFunction = async function() {               
+                    var asyncEngineCreation = async function() {
+                        try {
+                        return createDefaultEngine();
+                        } catch(e) {
+                        console.log("the available createEngine function failed. Creating the default engine instead");
+                        return createDefaultEngine();
+                        }
+                    }
+
+                    engine = await asyncEngineCreation();
+        if (!engine) throw 'engine should not be null.';
+        scene = createScene();};
+        initFunction().then(() => {sceneToRender = scene        
+            engine.runRenderLoop(function () {
+                if (sceneToRender && sceneToRender.activeCamera) {
+                    sceneToRender.render();
+                }
+            });
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
