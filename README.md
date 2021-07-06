@@ -27,3 +27,5 @@ https://www.babylonjs-playground.com/#6RQ35N
 https://www.babylonjs-playground.com/#6RQ35N#1
 
 https://www.babylonjs-playground.com/#6RQ35N#2
+
+https://www.babylonjs-playground.com/#6RQ35N#3
