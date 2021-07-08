@@ -6,6 +6,8 @@ http://3dwebgs.github.io/miscWebGLpages/
 
 index.html
 
+serve up assets with raw.githack.com
+
 
 
 License
