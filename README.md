@@ -45,3 +45,5 @@ https://playground.babylonjs.com/#RSHAA1#1
 spaceship
 https://playground.babylonjs.com/#2IAGJA
 
+
+https://playground.babylonjs.com/#2IAGJA#2
