@@ -52,3 +52,5 @@ https://playground.babylonjs.com/#2IAGJA#10
 
 checkboxes:
 https://playground.babylonjs.com/#2IAGJA#11
+
+https://playground.babylonjs.com/#2IAGJA#12
