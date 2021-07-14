@@ -49,3 +49,6 @@ https://playground.babylonjs.com/#2IAGJA
 https://playground.babylonjs.com/#2IAGJA#2
 
 https://playground.babylonjs.com/#2IAGJA#10
+
+checkboxes:
+https://playground.babylonjs.com/#2IAGJA#11
