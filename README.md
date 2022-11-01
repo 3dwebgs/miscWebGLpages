@@ -34,6 +34,8 @@ https://www.babylonjs-playground.com/#6RQ35N#3
 
 https://www.babylonjs-playground.com/#6RQ35N#4
 
+https://www.babylonjs-playground.com/#6RQ35N#5
+
 
 sphere terrain
 
