@@ -32,7 +32,7 @@ function createButtonControls (scene, camera) {
 	var grpCamLeft = new BABYLON.Group2D(
 		{ 
 			parent: grpMain, 
-			marginTop: 150,
+			marginTop: 75,
 			id: "grpCamLeft", 
 			size: new BABYLON.Size(65, 400),
 			layoutEngine:"VerticalStackPanel"
@@ -42,7 +42,7 @@ function createButtonControls (scene, camera) {
 	var grpLeft = new BABYLON.Group2D(
 		{ 
 			parent: grpMain, 
-			marginTop: 150,
+			marginTop: 75,
 			id: "grpLeft", 
 			size: new BABYLON.Size(55, 400),
 			layoutEngine:"VerticalStackPanel"
@@ -62,7 +62,7 @@ function createButtonControls (scene, camera) {
 		{ 
 			parent: grpMain, 
 			id: "grpRight", 
-			marginTop: 150,
+			marginTop: 75,
 			size: new BABYLON.Size(50, 400),
 			layoutEngine:"VerticalStackPanel"
 		}
@@ -72,7 +72,7 @@ function createButtonControls (scene, camera) {
 		{ 
 			parent: grpMain, 
 			marginLeft: 10,
-			marginTop: 150,
+			marginTop: 75,
 			id: "grpCamRight", 
 			size: new BABYLON.Size(65, 400),
 			layoutEngine:"VerticalStackPanel"
