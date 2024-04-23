@@ -48,7 +48,7 @@
 			var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
 			light3.groundColor = BABYLON.Color3.Gray();
 			light3.intensity = .4;
-			var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 50), scene);
+			// var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 50), scene);
 			// freeCamera.inputs.clear();
 			// // freeCamera.attachControl(canvas, true);
 			// freeCamera.detachControl(canvas, true);
@@ -67,11 +67,11 @@
 
 			var GUI = createButtonControls(scene, camera);
 			
-			/*window.addEventListener("resize", function () {
+			window.addEventListener("resize", function () {
 				GUI = null;
-				GUI = createButtonControls(scene, freeCamera);
+				GUI = createButtonControls(scene, camera);
 
-        });*/
+        });
 			
 
 			function posOrNeg(){ return Math.random() < 0.5 ? -1 : 1;}
