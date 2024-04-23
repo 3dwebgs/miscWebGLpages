@@ -80,18 +80,18 @@ function createButtonControls (scene, camera) {
 	//BUTTONS & TEXT
 	
 	
-	// var leftCamButton = new BABYLON.Rectangle2D({ parent: grpCamLeft, id: "leftButton", marginBottom:sideHeight, width: 55, height: 50,
-	// 		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	var leftCamButton = new BABYLON.Rectangle2D({ parent: grpCamLeft, id: "leftButton", marginBottom:sideHeight, width: 60, height: 50,
+			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
 	
-	// var textCamLeft = new BABYLON.Text2D(
-	// 	"Cam-L", 
-	// 	{ 
-	// 		parent: leftCamButton, 
-	// 		marginAlignment: "h:center, v:center", 
-	// 		fontName: "12pt Arial", 
-	// 		defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
-	// 	}
-	// );
+	var textCamLeft = new BABYLON.Text2D(
+		"Cam-L", 
+		{ 
+			parent: leftCamButton, 
+			marginAlignment: "h:center, v:center", 
+			fontName: "12pt Arial", 
+			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+		}
+	);
 	
 	var leftButton = new BABYLON.Rectangle2D({ parent: grpLeft, id: "leftButton", marginBottom:sideHeight, marginTop: 150, width: 50, height: 50,
 		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
@@ -107,31 +107,31 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	// var downCamButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "downButton", marginTop: 10, width: 50, height: 50,
-	// 	fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	var downCamButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "downButton", marginTop: 10, width: 60, height: 50,
+		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
 	
-	// var textCamDown = new BABYLON.Text2D(
-	// 	"Cam-D", 
-	// 	{ 
-	// 		parent: downCamButton, 
-	// 		marginAlignment: "h:center, v:center", 
-	// 		fontName: "12pt Arial", 
-	// 		defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
-	// 	}
-	// );
-	
-	var downButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "downButton", marginTop: 5, width: 50, height: 50,
-			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
-	
-	var textDown = new BABYLON.Text2D(
-		"Dwn", 
+	var textCamDown = new BABYLON.Text2D(
+		"Cam-D", 
 		{ 
-			parent: downButton, 
+			parent: downCamButton, 
 			marginAlignment: "h:center, v:center", 
 			fontName: "12pt Arial", 
 			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
 		}
 	);
+	
+	// var downButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "downButton", marginTop: 5, width: 50, height: 50,
+	// 		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	
+	// var textDown = new BABYLON.Text2D(
+	// 	"Dwn", 
+	// 	{ 
+	// 		parent: downButton, 
+	// 		marginAlignment: "h:center, v:center", 
+	// 		fontName: "12pt Arial", 
+	// 		defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+	// 	}
+	// );
 		
 	var backButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "backButton", marginTop: 5, width: 50, height: 50,
 			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
@@ -160,31 +160,31 @@ function createButtonControls (scene, camera) {
 	);
 
 	
-	var upButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "upButton", margin: 1, width: 50, height: 50,
-			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	// var upButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "upButton", margin: 1, width: 50, height: 50,
+	// 		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
 	
-	var textUp = new BABYLON.Text2D(
-		"Up", 
-		{ 
-			parent: upButton, 
-			marginAlignment: "h:center, v:center", 
-			fontName: "12pt Arial", 
-			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
-		}
-	);
-	
-	// var upCamButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "upButton", marginBottom: 5, width: 50, height: 50,
-	// 	fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
-	
-	// var textCamUp = new BABYLON.Text2D(
-	// 	"Cam-U", 
+	// var textUp = new BABYLON.Text2D(
+	// 	"Up", 
 	// 	{ 
-	// 		parent: upCamButton, 
+	// 		parent: upButton, 
 	// 		marginAlignment: "h:center, v:center", 
 	// 		fontName: "12pt Arial", 
 	// 		defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
 	// 	}
 	// );
+	
+	var upCamButton = new BABYLON.Rectangle2D({ parent: grpCenter, id: "upButton", marginBottom: 5, width: 60, height: 50,
+		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	
+	var textCamUp = new BABYLON.Text2D(
+		"Cam-U", 
+		{ 
+			parent: upCamButton, 
+			marginAlignment: "h:center, v:center", 
+			fontName: "12pt Arial", 
+			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+		}
+	);
 	
 	
 	var rightButton = new BABYLON.Rectangle2D({ parent: grpRight, id: "rightButton", marginBottom:sideHeight, marginTop:150, width: 50, height: 50,
@@ -201,19 +201,19 @@ function createButtonControls (scene, camera) {
 		}
 	);
 	
-	// var rightCamButton = new BABYLON.Rectangle2D({ parent: grpCamRight, id: "rightButton", marginBottom:sideHeight, width: 55, height: 50,
-	// 		fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
+	var rightCamButton = new BABYLON.Rectangle2D({ parent: grpCamRight, id: "rightButton", marginBottom:sideHeight, width: 60, height: 50,
+			fill: BABYLON.Canvas2D.GetSolidColorBrush(new BABYLON.Color4(0.380, 0.525, 0.718, transparency)), roundRadius: 10 });
 			
 
-	// var textCamRight = new BABYLON.Text2D(
-	// 	"Cam-R", 
-	// 	{ 
-	// 		parent: rightCamButton, 
-	// 		marginAlignment: "h:center, v:center", 
-	// 		fontName: "12pt Arial", 
-	// 		defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
-	// 	}
-	// );
+	var textCamRight = new BABYLON.Text2D(
+		"Cam-R", 
+		{ 
+			parent: rightCamButton, 
+			marginAlignment: "h:center, v:center", 
+			fontName: "12pt Arial", 
+			defaultFontColor: new BABYLON.Color4(1, 1, 1, 1) 
+		}
+	);
 	
 
 
@@ -251,36 +251,36 @@ function createButtonControls (scene, camera) {
 		thing.translate(BABYLON.Axis.X, posStep, BABYLON.Space.LOCAL);
 	}, BABYLON.PrimitivePointerInfo.PointerUp);
 
-	upButton.pointerEventObservable.add(function (d, s) {
-		// thing.position.y += posStep;
-		thing.translate(BABYLON.Axis.Y, posStep, BABYLON.Space.LOCAL);
-	}, BABYLON.PrimitivePointerInfo.PointerUp);
+	// upButton.pointerEventObservable.add(function (d, s) {
+	// 	// thing.position.y += posStep;
+	// 	thing.translate(BABYLON.Axis.Y, posStep, BABYLON.Space.LOCAL);
+	// }, BABYLON.PrimitivePointerInfo.PointerUp);
 	
-	downButton.pointerEventObservable.add(function (d, s) {
-		// thing.position.y -= posStep;
-		thing.translate(BABYLON.Axis.Y, -posStep, BABYLON.Space.LOCAL);
-	}, BABYLON.PrimitivePointerInfo.PointerUp);
+	// downButton.pointerEventObservable.add(function (d, s) {
+	// 	// thing.position.y -= posStep;
+	// 	thing.translate(BABYLON.Axis.Y, -posStep, BABYLON.Space.LOCAL);
+	// }, BABYLON.PrimitivePointerInfo.PointerUp);
 	
-	// leftCamButton.pointerEventObservable.add(function (d, s) {
-	// 	// thing.rotation.y -= rotStep;
-	// 	thing.rotate(BABYLON.Axis.Y, -rotStep, BABYLON.Space.LOCAL);
+	leftCamButton.pointerEventObservable.add(function (d, s) {
+		// thing.rotation.y -= rotStep;
+		thing.rotate(BABYLON.Axis.Y, -rotStep, BABYLON.Space.LOCAL);
 
-	// }, BABYLON.PrimitivePointerInfo.PointerUp);
+	}, BABYLON.PrimitivePointerInfo.PointerUp);
 	
-	// rightCamButton.pointerEventObservable.add(function (d, s) {
-	// 	// thing.rotation.y += rotStep;
-	// 	thing.rotate(BABYLON.Axis.Y, rotStep, BABYLON.Space.LOCAL);
-	// }, BABYLON.PrimitivePointerInfo.PointerUp);
+	rightCamButton.pointerEventObservable.add(function (d, s) {
+		// thing.rotation.y += rotStep;
+		thing.rotate(BABYLON.Axis.Y, rotStep, BABYLON.Space.LOCAL);
+	}, BABYLON.PrimitivePointerInfo.PointerUp);
 	
-	// upCamButton.pointerEventObservable.add(function (d, s) {
-	// 	// thing.rotation.x -= rotStep;
-	// 	thing.rotate(BABYLON.Axis.X, -rotStep, BABYLON.Space.LOCAL);
-	// }, BABYLON.PrimitivePointerInfo.PointerUp);
+	upCamButton.pointerEventObservable.add(function (d, s) {
+		// thing.rotation.x -= rotStep;
+		thing.rotate(BABYLON.Axis.X, -rotStep, BABYLON.Space.LOCAL);
+	}, BABYLON.PrimitivePointerInfo.PointerUp);
 	
-	// downCamButton.pointerEventObservable.add(function (d, s) {
-	// 	// thing.rotation.x += rotStep;
-	// 	thing.rotate(BABYLON.Axis.X, rotStep, BABYLON.Space.LOCAL);
-	// }, BABYLON.PrimitivePointerInfo.PointerUp);
+	downCamButton.pointerEventObservable.add(function (d, s) {
+		// thing.rotation.x += rotStep;
+		thing.rotate(BABYLON.Axis.X, rotStep, BABYLON.Space.LOCAL);
+	}, BABYLON.PrimitivePointerInfo.PointerUp);
 
 
 }
