@@ -51,6 +51,7 @@
 			var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 50), scene);
 			freeCamera.inputs.clear();
 			// freeCamera.attachControl(canvas, true);
+			freeCamera.detachControl(canvas, true);
 			//var touchCamera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -100), scene);
 			//touchCamera.attachControl(canvas, true);
 			
