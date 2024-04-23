@@ -47,11 +47,17 @@
 			var light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
 			light3.groundColor = BABYLON.Color3.Gray();
 			light3.intensity = .4;
-			var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
-			freeCamera.attachControl(canvas, false);
+			// var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
+			// freeCamera.attachControl(canvas, false);
+			var camera = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2, 0, 50, BABYLON.Vector3.Zero(), scene);
+			    camera.attachControl(true);
 			//var touchCamera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -100), scene);
 			//touchCamera.attachControl(canvas, true);
-			
+			var rot_state = {x:camera.alpha , y:camera.beta};
+			    scene.registerBeforeRender(function(){
+				camera.alpha = rot_state.x;
+				camera.beta = rot_state.y;
+			})
 
 			var GUI = createButtonControls(scene, freeCamera);
 			
