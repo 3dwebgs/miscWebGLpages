@@ -44,7 +44,7 @@ function createButtonControls (scene, camera) {
 			parent: grpMain, 
 
 			id: "grpLeft", 
-			size: new BABYLON.Size(55, 200),
+			size: new BABYLON.Size(55, 400),
 			layoutEngine:"VerticalStackPanel"
 		}
 	);
@@ -62,7 +62,7 @@ function createButtonControls (scene, camera) {
 		{ 
 			parent: grpMain, 
 			id: "grpRight", 
-			size: new BABYLON.Size(50, 200),
+			size: new BABYLON.Size(50, 400),
 			layoutEngine:"VerticalStackPanel"
 		}
 	);
