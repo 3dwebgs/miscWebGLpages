@@ -49,14 +49,23 @@
 			light3.groundColor = BABYLON.Color3.Gray();
 			light3.intensity = .4;
 			var freeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, 50), scene);
-			freeCamera.inputs.clear();
-			// freeCamera.attachControl(canvas, true);
-			freeCamera.detachControl(canvas, true);
-			//var touchCamera = new BABYLON.TouchCamera("camera1", new BABYLON.Vector3(0, 1, -100), scene);
-			//touchCamera.attachControl(canvas, true);
+			// freeCamera.inputs.clear();
+			// // freeCamera.attachControl(canvas, true);
+			// freeCamera.detachControl(canvas, true);
+
+			// Creates, angles, distances and targets the camera
+			var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0, 0, 0), scene);
+			
+			// This positions the camera
+			camera.setPosition(new BABYLON.Vector3(0, 0, -10));
+			
+			// This attaches the camera to the canvas
+			camera.attachControl(canvas, true);
+
+			
 			
 
-			var GUI = createButtonControls(scene, freeCamera);
+			var GUI = createButtonControls(scene, camera);
 			
 			/*window.addEventListener("resize", function () {
 				GUI = null;
