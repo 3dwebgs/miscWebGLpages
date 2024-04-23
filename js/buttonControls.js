@@ -17,7 +17,7 @@ function createButtonControls (scene, camera) {
 			id: "grpMain", 
 			position: new BABYLON.Vector2(30, 40), 
 			origin: new BABYLON.Vector2(0.5, 0.5), 
-			size: new BABYLON.Size(canvasWidth, 600),
+			size: new BABYLON.Size(canvasWidth, 500),
 			layoutEngine:"HorizontalStackPanel"
 
 		}
