@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+
+        <!-- Babylon.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+        <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
+        <script src="https://cdn.babylonjs.com/recast.js"></script>
+        <script src="https://cdn.babylonjs.com/ammo.js"></script>
+        <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
+        <script src="https://cdn.babylonjs.com/cannon.js"></script>
+        <script src="https://cdn.babylonjs.com/Oimo.js"></script>
+        <script src="https://cdn.babylonjs.com/earcut.min.js"></script>
+        <script src="https://cdn.babylonjs.com/babylon.js"></script>
+        <script src="https://cdn.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+        <script src="https://cdn.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <script src="https://cdn.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+        <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://cdn.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+        <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+        <script src="https://cdn.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+            
+            #canvasZone {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+<body>
+    <div id="canvasZone"><canvas id="renderCanvas"></canvas></div>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+
+        var startRenderLoop = function (engine, canvas) {
+            engine.runRenderLoop(function () {
+                if (sceneToRender && sceneToRender.activeCamera) {
+                    sceneToRender.render();
+                }
+            });
+        }
+
+        var engine = null;
+        var scene = null;
+        var sceneToRender = null;
+        var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
+        var createScene = async function () {
+    // This creates a basic Babylon Scene object (non-mesh)
+    var scene = new BABYLON.Scene(engine);
+    scene.clearColor = new BABYLON.Color3(0, 0, 0);
+    
+    //scene.debugLayer.show();
+    
+    const light3 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, -1, 0), scene);
+    light3.groundColor = BABYLON.Color3.Gray();
+    light3.intensity = .4;
+    let camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0, 0, 0), scene);
+    camera.setPosition(new BABYLON.Vector3(0, 0, -10));
+
+
+    
+    /*
+    *
+    STARFIELD
+    *
+    */
+    
+
+	
+	//generates value between either -1000 and -50, or 50 and 1000, to offset from origin
+	const posOrNeg = () => Math.random() < 0.5 ? -1 : 1;
+    const randomAxisValue = () => {  
+		let sign = Math.random() < 0.5 ? -1 : 1;   
+		return (Math.random() * 950 * sign) + (50 * sign);
+	}
+	
+	//small white stars
+	let baseWhiteStar = BABYLON.Mesh.CreateSphere("baseWhiteSphere", 20, 5, scene);
+	let whiteMat = new BABYLON.StandardMaterial("white", scene);
+	whiteMat.emissiveColor = new BABYLON.Color3(1, 1, 1);
+	baseWhiteStar.material = whiteMat;
+	baseWhiteStar.position = new BABYLON.Vector3(-50, 0, 950);
+	for (let k = 0; k < 1000; k++) {
+		let instance = baseWhiteStar.createInstance("whiteStarInstance_" + k);
+		instance.position = new BABYLON.Vector3(
+			randomAxisValue(),
+			randomAxisValue(),
+			randomAxisValue()
+		);
+		let randomScale = Math.random() * 0.3 + 0.2;
+		instance.scaling = new BABYLON.Vector3(randomScale, randomScale, randomScale);
+	}
+	
+	//red stars
+	let redStarPositions = []; 
+	let minDistance = 300;
+	let baseRedStar = BABYLON.Mesh.CreateSphere("baseRedSphere", 20, 80, scene);
+	let fireTexture = new BABYLON.FireProceduralTexture("fire", 256, scene);
+	var fireMat = new BABYLON.StandardMaterial("fireMat", scene);
+	fireMat.diffuseTexture = fireTexture;
+	fireMat.emissiveColor = new BABYLON.Color3(1, 1, 1); // Set the emissive color to white
+	baseRedStar.material = fireMat;
+	for (let j = 0; j < 50; j++) {
+	    let positionIsValid = false;
+		let instance;
+		while (!positionIsValid) {
+			let position = new BABYLON.Vector3(  //regenerates new position until position is valid distance
+				randomAxisValue(),
+				randomAxisValue(),
+				randomAxisValue()
+			);
+
+			// Check against existing red star positions
+			positionIsValid = redStarPositions.every((starPosition) => {
+				return BABYLON.Vector3.Distance(position, starPosition) > minDistance;
+			});
+
+			if (positionIsValid) {
+				instance = baseRedStar.createInstance("redStarInstance_" + j);
+				instance.position = position;
+				redStarPositions.push(position); // Add the new position to the array
+			}
+		}
+		let randomScale = Math.random() * 2 + 1; // Keeps scaling between 1 and 3 times that of the base star
+		instance.scaling = new BABYLON.Vector3(randomScale, randomScale, randomScale);
+	}
+	
+	
+	function generateStars(cameraPosition) {
+	    // Calculate distance from camera for star generation
+		let distanceThreshold = 3000; // Adjust as needed
+		let cameraDistance = Math.sqrt(cameraPosition.x * cameraPosition.x + cameraPosition.y * cameraPosition.y + cameraPosition.z * cameraPosition.z);
+	
+		if (cameraDistance > distanceThreshold) {
+			// Generate more white stars
+			for (let k = 0; k < 3000; k++) {
+				let instance = baseWhiteStar.createInstance("whiteStarInstance_" + k);
+				instance.position = new BABYLON.Vector3(
+					randomAxisValue(),
+					randomAxisValue(),
+					randomAxisValue()
+				);
+				let randomScale = Math.random() * 0.3 + 0.2;
+				instance.scaling = new BABYLON.Vector3(randomScale, randomScale, randomScale);
+			}
+			
+			// Generate more red stars
+			for (let j = 0; j < 50; j++) {
+				let positionIsValid = false;
+				let instance;
+				while (!positionIsValid) {
+					let position = new BABYLON.Vector3(
+						randomAxisValue(),
+						randomAxisValue(),
+						randomAxisValue()
+					);
+
+					// Check against existing red star positions
+					positionIsValid = redStarPositions.every((starPosition) => {
+						return BABYLON.Vector3.Distance(position, starPosition) > minDistance;
+					});
+
+					if (positionIsValid) {
+						instance = baseRedStar.createInstance("redStarInstance_" + j);
+						instance.position = position;
+						redStarPositions.push(position); // Add the new position to the array
+					}
+				}
+				let randomScale = Math.random() * 2 + 1; // Keeps scaling between 1 and 3 times that of the base star
+				instance.scaling = new BABYLON.Vector3(randomScale, randomScale, randomScale);
+			}
+		} 
+	}
+	
+	// Call the generateStars function with the initial camera position
+	generateStars(camera.position);
+	
+	scene.onBeforeRenderObservable.add(() => {
+		generateStars(camera.position);
+	});
+	
+
+
+	
+
+
+
+			
+	/*
+	*
+	GUI
+	*
+	*/
+
+    // Load a GUI from the snippet server.
+    let advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("GUI", true, scene);  
+    let loadedGUI = await advancedTexture.parseFromSnippetAsync("##QCVJZD#4");
+
+    // Set the ideal W and H if you wish to scale with the window.
+    advancedTexture.idealWidth = 1024;  
+    advancedTexture.idealHeight = 1024;
+
+	//in visible box the camera follows for navigation
+    var movingBox = BABYLON.MeshBuilder.CreateBox("box", {size: 1}, scene);
+    camera.parent = movingBox;
+    movingBox.visibility = 0;
+    movingBox.rotation = BABYLON.Vector3.Zero();
+
+    var posStep = 40;
+	var rotStep = .1;
+
+
+	//observable constructor
+	function createButtonObservable(buttonName, action, axis, step){
+		let button = advancedTexture.getControlByName(buttonName); //gets button from scene
+		button.onPointerClickObservable.add(function(){
+			if (action === 'translate'){
+				movingBox.translate(axis, step, BABYLON.Space.LOCAL);
+			} else if (action === 'rotate') {
+				movingBox.rotate(axis, step, BABYLON.Space.LOCAL);
+			}
+		});
+	}
+
+	//observables for move buttons
+	createButtonObservable("moveUp", "translate", BABYLON.Axis.Z, posStep);
+	createButtonObservable("moveDown", "translate", BABYLON.Axis.Z, -posStep);
+	createButtonObservable("moveLeft", "translate", BABYLON.Axis.X, -posStep);
+	createButtonObservable("moveRight", "translate", BABYLON.Axis.X, posStep);
+
+	// Create observables for camera buttons
+	createButtonObservable("cameraUp", "rotate", BABYLON.Axis.X, -rotStep);
+	createButtonObservable("cameraDown", "rotate", BABYLON.Axis.X, rotStep);
+	createButtonObservable("cameraLeft", "rotate", BABYLON.Axis.Y, -rotStep);
+	createButtonObservable("cameraRight", "rotate", BABYLON.Axis.Y, rotStep);
+
+
+
+
+
+
+    return scene;
+};
+                window.initFunction = async function() {
+                    
+                    
+                    
+                    var asyncEngineCreation = async function() {
+                        try {
+                        return createDefaultEngine();
+                        } catch(e) {
+                        console.log("the available createEngine function failed. Creating the default engine instead");
+                        return createDefaultEngine();
+                        }
+                    }
+
+                    window.engine = await asyncEngineCreation();
+        if (!engine) throw 'engine should not be null.';
+        startRenderLoop(engine, canvas);
+        window.scene = createScene();};
+        initFunction().then(() => {scene.then(returnedScene => { sceneToRender = returnedScene; });
+                            
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
